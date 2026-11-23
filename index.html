@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulado — Química Orgânica (2º ano)</title>
+<style>
+  :root{
+    --bg:#f5f6fa;
+    --card:#ffffff;
+    --ink:#1a1c23;
+    --muted:#6b7280;
+    --line:#e3e6ee;
+    --accent:#4f46e5;
+    --accent-soft:#eef0ff;
+    --ok:#15803d;
+    --ok-soft:#e9f8ef;
+    --ok-line:#b7e4c7;
+    --no:#b91c1c;
+    --no-soft:#fdecec;
+    --no-line:#f3bcbc;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:840px;margin:0 auto;padding:28px 18px 80px}
+
+  header.top{margin-bottom:22px}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  h1{font-size:clamp(22px,3.4vw,30px);line-height:1.2;margin:6px 0 6px;letter-spacing:-.02em}
+  .sub{color:var(--muted);font-size:14px;margin:0}
+
+  .bar{
+    position:sticky;top:0;z-index:5;
+    background:rgba(245,246,250,.92);
+    backdrop-filter:blur(8px);
+    padding:12px 0 10px;margin:-4px 0 18px;
+    border-bottom:1px solid var(--line);
+  }
+  .bar-inner{max-width:840px;margin:0 auto;padding:0 18px;display:flex;align-items:center;gap:14px}
+  .track{flex:1;height:7px;border-radius:99px;background:#e4e7f0;overflow:hidden}
+  .fill{height:100%;width:0%;background:linear-gradient(90deg,#6366f1,#8b5cf6);transition:width .35s ease}
+  .count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .count b{color:var(--ink)}
+
+  .timer{
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;
+    padding:4px 10px;border-radius:9px;white-space:nowrap;
+    background:#fff;border:1.5px solid var(--line);color:var(--ink);
+  }
+  .timer::before{content:"⏱ ";font-size:12.5px;opacity:.5;font-weight:400}
+  .timer.warn{border-color:#efd08f;background:#fffaf0;color:#a16207}
+  .timer.danger{border-color:#f3bcbc;background:var(--no-soft);color:var(--no);animation:pulse 1.5s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+  .timer.hidden{display:none}
+
+  .start-rules{list-style:none;padding:0;margin:20px 0 0;display:flex;flex-direction:column;gap:10px}
+  .start-rules li{font-size:14.5px;line-height:1.5;color:#3b4051;padding-left:22px;position:relative}
+  .start-rules li::before{content:"›";position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:800;font-size:17px}
+  .big{font-size:16px;padding:15px 28px;width:100%}
+  .banner{
+    margin:0 0 16px;padding:11px 14px;border-radius:10px;
+    background:var(--no-soft);border:1px solid var(--no-line);color:var(--no);
+    font-size:14px;font-weight:600;
+  }
+  .meta-row{display:flex;gap:18px;flex-wrap:wrap;margin:14px 0 0;font-size:13.5px;color:var(--muted)}
+  .meta-row b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+  /* ---------- painel de registro de tentativas ---------- */
+  .log{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:12px 14px;margin:0 0 16px;box-shadow:0 1px 2px rgba(16,24,40,.04);
+  }
+  .log-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .log-title{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .log-badges{display:flex;gap:6px;flex-wrap:wrap;flex:1;min-width:0}
+  .badge{
+    font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:99px;
+    background:#f0f2f8;color:#4b5060;white-space:nowrap;font-variant-numeric:tabular-nums;
+  }
+  .badge.zero{opacity:.45}
+  .badge.warn{background:#fff6e5;color:#a16207}
+  .badge.bad{background:var(--no-soft);color:var(--no)}
+  .badge.good{background:var(--ok-soft);color:var(--ok)}
+  .log-toggle{
+    font-size:12px;font-weight:600;padding:5px 11px;border-radius:8px;cursor:pointer;
+    background:#fff;border:1px solid var(--line);color:#4b5060;font-family:inherit;
+  }
+  .log-toggle:hover{border-color:#c3c8f5;color:var(--accent)}
+  .log-note{
+    margin:10px 0 0;font-size:13px;line-height:1.45;color:var(--no);
+    background:var(--no-soft);border:1px solid var(--no-line);border-radius:9px;padding:8px 11px;
+  }
+  .log-note b{font-variant-numeric:tabular-nums}
+  .log-list{
+    list-style:none;margin:11px 0 0;padding:0;display:flex;flex-direction:column;
+    gap:0;max-height:190px;overflow-y:auto;
+  }
+  .log-list[hidden]{display:none}
+  .log-list li{
+    display:flex;gap:9px;align-items:baseline;font-size:13px;line-height:1.4;
+    padding:7px 0;border-bottom:1px dashed #edf0f7;color:#3b4051;
+  }
+  .log-list li:last-child{border-bottom:0}
+  .log-time{font-family:ui-monospace,monospace;font-size:11.5px;color:var(--muted);flex:0 0 auto}
+  .log-tipo{font-weight:700;flex:0 0 auto}
+  .log-tipo.iniciou{color:var(--accent)}
+  .log-tipo.reiniciou{color:#a16207}
+  .log-tipo.interrompeu{color:var(--no)}
+  .log-tipo.concluiu{color:var(--ok)}
+  .log-tipo.tempo{color:var(--no)}
+  .log-nota{color:var(--muted);font-size:12.5px}
+  .log-foot{display:flex;justify-content:flex-end;margin-top:11px}
+  .log-foot[hidden]{display:none}
+  .log-clear{
+    font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:7px;cursor:pointer;
+    background:none;border:1px solid var(--line);color:var(--muted);font-family:inherit;
+  }
+  .log-clear:hover{border-color:var(--no-line);color:var(--no)}
+
+  /* ---------- confirmacao antes de revelar ---------- */
+  .opt.sel{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 3px rgba(79,70,229,.12)}
+  .opt.sel .key{background:var(--accent);color:#fff}
+  .confirm{
+    margin-top:16px;padding:14px 16px;border-radius:12px;
+    border:1.5px dashed var(--accent);background:#f8f9ff;animation:in .18s ease;
+  }
+  .confirm-q{font-size:14.5px;line-height:1.5;color:#33384a;margin:0 0 12px}
+  .confirm-q b{color:var(--ink)}
+  .confirm-q .pick{
+    display:block;margin-top:6px;font-weight:600;color:var(--ink);
+    background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 10px;
+  }
+  .confirm-btns{display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap}
+  .confirm-btns .btn{padding:9px 18px;font-size:14.5px}
+  .danger-btn{background:var(--no);border-color:var(--no)}
+  .danger-btn:hover{background:#991b1b}
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:24px 24px 20px;
+    box-shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px -18px rgba(16,24,40,.18);
+  }
+  .chip{
+    display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--accent);background:var(--accent-soft);
+    padding:4px 10px;border-radius:99px;margin-bottom:14px;
+  }
+  .q{font-size:17.5px;line-height:1.6;margin:0 0 6px;font-weight:500}
+  .q strong{font-weight:700}
+
+  .formula{
+    font-family:"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+    font-size:15px;line-height:1.45;
+    background:#f8f9fc;border:1px dashed #d6dae7;border-radius:10px;
+    padding:14px 16px;margin:14px 0 4px;
+    white-space:pre;overflow-x:auto;color:#242736;
+  }
+  .formula .lbl{display:block;font-family:inherit;font-size:11.5px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+
+  .opts{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:10px}
+  .opt{
+    display:flex;gap:12px;align-items:flex-start;
+    border:1.5px solid var(--line);border-radius:12px;
+    padding:13px 15px;cursor:pointer;background:#fff;
+    transition:border-color .15s,background .15s,transform .06s;
+    font-size:15.5px;line-height:1.5;text-align:left;
+  }
+  .opt:hover:not(.locked){border-color:#c3c8f5;background:#fbfbff}
+  .opt:active:not(.locked){transform:scale(.997)}
+  .opt .key{
+    flex:0 0 26px;height:26px;border-radius:8px;background:#f0f2f8;color:#4b5060;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12.5px;font-weight:700;font-family:ui-monospace,monospace;
+  }
+  .opt .txt{flex:1}
+  .opt.locked{cursor:default}
+  .opt.correct{border-color:var(--ok-line);background:var(--ok-soft)}
+  .opt.correct .key{background:#cdeedd;color:var(--ok)}
+  .opt.wrong{border-color:var(--no-line);background:var(--no-soft)}
+  .opt.wrong .key{background:#f8cfcf;color:var(--no)}
+  .opt.dim{opacity:.62}
+  .mark{font-weight:800;margin-left:auto;flex:0 0 auto;font-size:15px}
+  .opt.correct .mark{color:var(--ok)}
+  .opt.wrong .mark{color:var(--no)}
+
+  .fb{
+    margin-top:20px;border-top:1px solid var(--line);padding-top:18px;
+    animation:in .22s ease;
+  }
+  @keyframes in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .verdict{display:flex;align-items:center;gap:9px;font-weight:700;font-size:15px;margin-bottom:10px}
+  .verdict.ok{color:var(--ok)}
+  .verdict.no{color:var(--no)}
+  .concept{font-size:14.5px;color:#33384a;background:#f8f9fc;border-left:3px solid var(--accent);
+    border-radius:0 8px 8px 0;padding:10px 14px;margin:0 0 14px}
+  .why{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+  .why li{font-size:14.5px;line-height:1.55;padding-left:26px;position:relative;color:#3b4051}
+  .why li::before{position:absolute;left:0;top:0;font-weight:800}
+  .why li.good::before{content:"✓";color:var(--ok)}
+  .why li.bad::before{content:"✕";color:var(--no)}
+  .why li b.lbl{display:inline-block;font-family:ui-monospace,monospace;font-size:12.5px;
+    background:#eef0f6;color:#40465a;border-radius:5px;padding:0 5px;margin-right:5px}
+  .why li.picked{background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 10px 8px 30px;color:var(--ink)}
+  .why li.picked::before{left:10px;top:8px}
+
+  .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
+  button{font-family:inherit;font-size:15px;font-weight:600;border-radius:11px;cursor:pointer;transition:.15s}
+  .btn{background:var(--accent);color:#fff;border:1px solid var(--accent);padding:11px 22px}
+  .btn:hover{background:#4338ca}
+  .btn:disabled{background:#c9ccd8;border-color:#c9ccd8;cursor:not-allowed}
+  .btn.ghost{background:#fff;color:#3b4051;border:1.5px solid var(--line)}
+  .btn.ghost:hover{border-color:#c3c8f5;color:var(--accent)}
+  .hint{font-size:12.5px;color:var(--muted);margin-right:auto;align-self:center}
+
+  /* resultado */
+  .score{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin:6px 0 4px}
+  .ring{
+    --p:0;
+    width:104px;height:104px;border-radius:50%;flex:0 0 auto;
+    background:conic-gradient(var(--accent) calc(var(--p)*1%),#e7e9f2 0);
+    display:grid;place-items:center;
+  }
+  .ring span{width:82px;height:82px;border-radius:50%;background:#fff;display:grid;place-items:center;
+    font-size:23px;font-weight:800;letter-spacing:-.02em}
+  .score-txt h2{margin:0 0 4px;font-size:21px;letter-spacing:-.01em}
+  .score-txt p{margin:0;color:var(--muted);font-size:14.5px}
+  table{width:100%;border-collapse:collapse;margin:20px 0 4px;font-size:14.5px}
+  th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line)}
+  th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  td.num{font-variant-numeric:tabular-nums;text-align:right;width:70px}
+  .pill{display:inline-block;font-size:12px;font-weight:700;padding:1px 8px;border-radius:99px}
+  .pill.ok{background:var(--ok-soft);color:var(--ok)}
+  .pill.mid{background:#fff6e5;color:#a16207}
+  .pill.no{background:var(--no-soft);color:var(--no)}
+  .rev-list{margin:18px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+  .rev-list li{font-size:14.5px;background:#fbfbfe;border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+  .rev-list b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+  footer{color:var(--muted);font-size:12.5px;text-align:center;margin-top:26px}
+  @media (max-width:520px){
+    .wrap{padding:20px 12px 60px}
+    .card{padding:18px 15px 16px;border-radius:13px}
+    .q{font-size:16.5px}
+    .opt{font-size:15px;padding:12px 12px}
+    .bar-inner{padding:0 12px}
+  }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="bar-inner">
+    <div class="track"><div class="fill" id="fill"></div></div>
+    <div class="count" id="count"><b>1</b> / 26</div>
+    <div class="timer hidden" id="timer">50:00</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <header class="top">
+    <div class="kicker">Química Orgânica · 2º ano do Ensino Médio</div>
+    <h1>Simulado de revisão para a prova</h1>
+    <p class="sub">Baseado na lista do Prof. Rafael Lopes. Ao responder, você vê a correta e o motivo do erro de cada alternativa.</p>
+  </header>
+
+  <div class="log" id="log">
+    <div class="log-head">
+      <span class="log-title">Registro de tentativas</span>
+      <div class="log-badges" id="logBadges"></div>
+      <button class="log-toggle" id="logToggle" type="button">Histórico</button>
+    </div>
+    <p class="log-note" id="logNote" hidden></p>
+    <ul class="log-list" id="logList" hidden></ul>
+    <div class="log-foot" id="logFoot" hidden>
+      <button class="log-clear" id="logClear" type="button">Apagar histórico</button>
+    </div>
+  </div>
+
+  <main id="stage"></main>
+
+  <footer>Simulado gerado a partir das suas duas folhas de exercícios · funciona offline</footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    tema: "Postulados de Kekulé e Couper",
+    enunciado: "Por volta de 1858, Kekulé e Couper apresentaram uma série de postulados que deram base à Química Orgânica. Qual alternativa traduz corretamente o pensamento desses cientistas?",
+    conceito: "O núcleo dos postulados é: o carbono é <b>tetravalente</b>, suas quatro valências são <b>equivalentes</b> (iguais) e ele pode ligar-se a si mesmo formando <b>cadeias</b>. É por isso que existe uma química inteira em volta de um único elemento.",
+    alternativas: [
+      {t:"O carbono é tetravalente: forma quatro ligações e suas quatro valências são iguais entre si.", ok:true,
+       porque:"É exatamente o postulado de Kekulé/Couper — tetravalência + equivalência das quatro valências. Some-se a isso a capacidade de o carbono se ligar a outro carbono, o que explica as cadeias."},
+      {t:"A Química Orgânica é o ramo que estuda compostos extraídos dos seres vivos.", ok:false,
+       porque:"Essa é a definição <b>histórica e superada</b> (vitalista). Hoje a Química Orgânica estuda os compostos do carbono, inclusive os sintetizados em laboratório, como plásticos e fármacos."},
+      {t:"Os compostos orgânicos precisam de uma força vital para serem sintetizados.", ok:false,
+       porque:"Isso é o <b>vitalismo</b> — justamente a ideia que os postulados e a síntese da ureia por Wöhler derrubaram. Não é um postulado de Kekulé/Couper."},
+      {t:"A síntese artificial de uma substância orgânica a partir de inorgânicas não tem relação com os postulados.", ok:false,
+       porque:"Ela tem relação direta: foi a <b>síntese da ureia por Wöhler (1828)</b> que mostrou que não existe 'força vital'. Mas essa é uma contribuição de Wöhler, não um postulado de 1858."},
+      {t:"“Na natureza nada se cria, nada se perde, tudo se transforma.”", ok:false,
+       porque:"Essa frase é de <b>Lavoisier</b> e trata da conservação da massa nas reações — nada a ver com a estrutura do carbono."}
+    ]
+  },
+  {
+    tema: "Fim do vitalismo",
+    enunciado: "Em 1828, Friedrich Wöhler aqueceu cianato de amônio (substância inorgânica) e obteve ureia (substância orgânica). Esse experimento foi decisivo porque:",
+    conceito: "O vitalismo dizia que só seres vivos conseguiam produzir compostos orgânicos. Wöhler obteve ureia em laboratório a partir de um composto inorgânico — a 'força vital' deixou de ser necessária como explicação.",
+    alternativas: [
+      {t:"Mostrou que compostos orgânicos podem ser produzidos em laboratório a partir de inorgânicos, derrubando o vitalismo.", ok:true,
+       porque:"É o marco histórico. A partir daí, orgânico passou a significar 'composto do carbono', e não 'composto de origem viva'."},
+      {t:"Provou que a ureia não contém carbono.", ok:false,
+       porque:"A ureia tem fórmula CO(NH₂)₂ — possui carbono, oxigênio, nitrogênio e hidrogênio. Ela é orgânica justamente por isso."},
+      {t:"Demonstrou que apenas seres vivos produzem ureia.", ok:false,
+       porque:"O contrário: Wöhler produziu ureia <b>fora</b> de um ser vivo, sem nenhum órgão ou animal envolvido."},
+      {t:"Estabeleceu a tetravalência do carbono.", ok:false,
+       porque:"A tetravalência foi proposta por Kekulé e Couper em 1858, cerca de 30 anos depois, a partir de dados de valência de outros compostos."},
+      {t:"Provou que todo composto que contém carbono é orgânico.", ok:false,
+       porque:"Falso. CO₂, CO, ácido carbônico, carbonatos, bicarbonatos e o próprio grafite/diamante contêm carbono e são estudados como <b>inorgânicos</b>."}
+    ]
+  },
+  {
+    tema: "Exceções à regra do carbono",
+    enunciado: "Nem toda substância que contém carbono é orgânica. Qual das espécies abaixo é considerada <strong>inorgânica</strong>, apesar de conter carbono?",
+    conceito: "Ficam fora da Química Orgânica: óxidos de carbono (CO e CO₂), grafite, diamante, carbonetos, ácido carbônico, carbonatos e bicarbonatos.",
+    alternativas: [
+      {t:"CO₂ (dióxido de carbono)", ok:true,
+       porque:"Óxido de carbono — composto inorgânico clássico. É o exemplo que a própria questão 1 da sua lista cita."},
+      {t:"CH₄ (metano)", ok:false,
+       porque:"Hidrocarboneto: o composto orgânico mais simples que existe, base do gás natural."},
+      {t:"C₂H₅OH (etanol)", ok:false,
+       porque:"Álcool — composto orgânico típico, com grupo funcional OH."},
+      {t:"C₆H₁₂O₆ (glicose)", ok:false,
+       porque:"Carboidrato, composto orgânico essencial à respiração celular."},
+      {t:"CH₃COOH (ácido acético)", ok:false,
+       porque:"Ácido carboxílico orgânico — o vinagre. Note: o 'ácido carbônico' (H₂CO₃) é inorgânico, mas o acético é orgânico."}
+    ]
+  },
+  {
+    tema: "Por que tantos compostos orgânicos",
+    enunciado: "O número enorme de compostos orgânicos conhecidos se explica, principalmente, por duas propriedades do átomo de carbono:",
+    conceito: "Tetravalência (forma 4 ligações) + capacidade de formar ligações carbono–carbono em sequência (cadeias) = combinações praticamente infinitas.",
+    alternativas: [
+      {t:"Tetravalência e capacidade de formar ligações C–C, originando cadeias.", ok:true,
+       porque:"Formar 4 ligações já permite muita variação; poder ligar-se a outros carbonos em cadeias abertas, fechadas, ramificadas e insaturadas multiplica as possibilidades."},
+      {t:"Ser um metal e ter alto ponto de fusão.", ok:false,
+       porque:"O carbono não é metal (é ametal) e o ponto de fusão não tem relação com a variedade de compostos."},
+      {t:"Ter apenas dois elétrons na camada de valência.", ok:false,
+       porque:"O carbono tem <b>quatro</b> elétrons na camada de valência (2s² 2p²) — daí a tetravalência."},
+      {t:"Formar somente ligações iônicas.", ok:false,
+       porque:"Compostos orgânicos são predominantemente <b>covalentes</b>; ligações iônicas geram sais, não cadeias carbônicas."},
+      {t:"Ser o elemento mais abundante da crosta terrestre.", ok:false,
+       porque:"Na crosta, os mais abundantes são oxigênio e silício. A abundância não explica a variedade estrutural."}
+    ]
+  },
+  {
+    tema: "Classificação do carbono",
+    enunciado: "Um átomo de carbono é classificado como <strong>terciário</strong> quando está ligado a:",
+    conceito: "A classificação conta <b>quantos outros carbonos</b> estão ligados ao carbono em análise: 1 → primário, 2 → secundário, 3 → terciário, 4 → quaternário. Hidrogênios e heteroátomos não entram na contagem.",
+    alternativas: [
+      {t:"Três outros átomos de carbono.", ok:true,
+       porque:"É a definição. Exemplo: o carbono central do isobutano, ligado a três CH₃."},
+      {t:"Três átomos de hidrogênio.", ok:false,
+       porque:"Ligar-se a H não classifica o carbono. Um CH₃, por exemplo, é <b>primário</b> (ligado a um único carbono)."},
+      {t:"Dois carbonos e um hidrogênio.", ok:false,
+       porque:"Dois carbonos = carbono <b>secundário</b>, como o CH₂ no meio de uma cadeia."},
+      {t:"Quatro outros átomos de carbono.", ok:false,
+       porque:"Quatro carbonos = carbono <b>quaternário</b>. É o caso do C2 no 2,2,4-trimetilpentano."},
+      {t:"Um carbono e três hidrogênios.", ok:false,
+       porque:"Um carbono = <b>primário</b>. É o caso das extremidades da cadeia e das metilas ramificadas."}
+    ]
+  },
+  {
+    tema: "Contagem de carbonos",
+    enunciado: "O 2,2,4-trimetilpentano é um dos principais componentes da gasolina comercial. Quantos carbonos <strong>primários</strong> existem nessa molécula?",
+    estrutura:"CH₃–C(CH₃)₂–CH₂–CH(CH₃)–CH₃",
+    conceito: "São primários os carbonos ligados a <b>um único</b> carbono: as duas extremidades da cadeia e os carbonos das ramificações (metilas).",
+    alternativas: [
+      {t:"5", ok:true,
+       porque:"C1 e C5 (extremidades) + as três metilas ramificadas (duas no C2 e uma no C4) = 5 carbonos primários."},
+      {t:"3", ok:false,
+       porque:"3 é o número de metilas ramificadas, mas faltam as duas extremidades da cadeia principal."},
+      {t:"4", ok:false,
+       porque:"4 seria contar as extremidades e apenas duas metilas. A estrutura tem <b>três</b> ramificações metila."},
+      {t:"8", ok:false,
+       porque:"8 é o total de carbonos da molécula (5 da cadeia + 3 ramificações), não os primários."},
+      {t:"6", ok:false,
+       porque:"Não corresponde a nenhuma contagem válida aqui: a molécula tem 8 carbonos no total."}
+    ]
+  },
+  {
+    tema: "Contagem de carbonos",
+    enunciado: "Ainda no 2,2,4-trimetilpentano, os números de carbonos <strong>secundários, terciários e quaternários</strong> são, respectivamente:",
+    estrutura:"CH₃–C(CH₃)₂–CH₂–CH(CH₃)–CH₃",
+    conceito: "Percorra a cadeia contando vizinhos carbono: CH₂ no meio = secundário; carbono com três vizinhos = terciário; com quatro = quaternário.",
+    alternativas: [
+      {t:"1, 1 e 1", ok:true,
+       porque:"O CH₂ (C3) é o único secundário; o C4 liga-se a C3, C5 e a uma metila → terciário; o C2 liga-se a C1, C3 e duas metilas → quaternário. Total 1 + 1 + 1 + 5 primários = 8 carbonos."},
+      {t:"2, 1 e 1", ok:false,
+       porque:"Há só um CH₂ interno. O outro CH₂ que você poderia contar não existe: o restante são CH₃ ou carbonos sem hidrogênio."},
+      {t:"1, 2 e 0", ok:false,
+       porque:"Só existe um carbono terciário (C4), e existe sim um quaternário (C2, com as duas metilas)."},
+      {t:"0, 1 e 1", ok:false,
+       porque:"Existe um carbono secundário: o CH₂ no meio da cadeia."},
+      {t:"1, 0 e 2", ok:false,
+       porque:"O C4 é terciário (três vizinhos carbono) e só há <b>um</b> quaternário — o C2."}
+    ]
+  },
+  {
+    tema: "Classificação de cadeias",
+    enunciado: "A cadeia do metilpropano (isobutano) é classificada como:",
+    estrutura:"CH₃–CH(CH₃)–CH₃",
+    conceito: "Três critérios independentes: <b>normal/ramificada</b>, <b>saturada/insaturada</b> e <b>homogênea/heterogênea</b>. Aqui: só ligações simples, só carbono na cadeia e há ramificação.",
+    alternativas: [
+      {t:"Ramificada, saturada e homogênea.", ok:true,
+       porque:"Ramificada (o carbono central é terciário), saturada (nenhuma dupla/tripla) e homogênea (não há heteroátomo entre carbonos)."},
+      {t:"Normal, saturada e homogênea.", ok:false,
+       porque:"Normal seria uma cadeia sem ramificações, só com duas extremidades. Aqui o carbono central sustenta três cadeias."},
+      {t:"Ramificada, insaturada e homogênea.", ok:false,
+       porque:"Não há ligação dupla nem tripla — todas as ligações C–C são simples."},
+      {t:"Ramificada, saturada e heterogênea.", ok:false,
+       porque:"Não há oxigênio, nitrogênio ou enxofre entre carbonos; a cadeia é formada apenas por carbonos."},
+      {t:"Cíclica, saturada e homogênea.", ok:false,
+       porque:"A cadeia é aberta — não há anel fechado na molécula."}
+    ]
+  },
+  {
+    tema: "Classificação de cadeias",
+    enunciado: "O propino, de fórmula H₃C—C≡CH, apresenta cadeia:",
+    conceito: "Ligação tripla = insaturação. Cadeia com apenas duas extremidades = normal. Sem heteroátomo = homogênea.",
+    alternativas: [
+      {t:"Normal, insaturada e homogênea.", ok:true,
+       porque:"O grupo C≡C gera a insaturação; a cadeia é linear (apenas carbonos em sequência) e homogênea."},
+      {t:"Normal, saturada e homogênea.", ok:false,
+       porque:"Saturada significa <b>só ligações simples</b>. A tripla entre carbonos é insaturação."},
+      {t:"Ramificada, insaturada e homogênea.", ok:false,
+       porque:"Insaturação não é ramificação. Ramificar exige um carbono ligado a três ou quatro carbonos; aqui não há."},
+      {t:"Normal, insaturada e heterogênea.", ok:false,
+       porque:"Heterogênea exigiria um heteroátomo (O, N, S) entre carbonos na cadeia — não existe nessa fórmula."},
+      {t:"Ramificada, saturada e heterogênea.", ok:false,
+       porque:"Erra nos três critérios: é normal, insaturada e homogênea."}
+    ]
+  },
+  {
+    tema: "Citral (UFRGS)",
+    enunciado: "O citral tem forte sabor de limão e é empregado em alimentos para dar aroma cítrico. Sua cadeia carbônica é classificada como:",
+    estrutura:"CH₃–C(CH₃)=CH–CH₂–CH₂–C(CH₃)=CH–CHO",
+    conceito: "Atenção: o oxigênio do aldeído está <b>fora</b> da cadeia (ligado a apenas um carbono). Por isso a cadeia continua homogênea. As duas duplas dão a insaturação e as duas metilas dão a ramificação.",
+    alternativas: [
+      {t:"Homogênea, insaturada e ramificada.", ok:true,
+       porque:"Só carbonos na cadeia (o O está no grupo funcional aldeído, fora dela), duas ligações duplas e duas ramificações metila."},
+      {t:"Homogênea, saturada e normal.", ok:false,
+       porque:"Tem duas duplas C=C (insaturada) e duas metilas ramificadas (não é normal)."},
+      {t:"Homogênea, insaturada e aromática.", ok:false,
+       porque:"Aromática exige anel benzênico — o citral é acíclico, de cadeia aberta."},
+      {t:"Heterogênea, insaturada e ramificada.", ok:false,
+       porque:"A pegadinha: heterogênea só vale quando o heteroátomo está <b>entre</b> carbonos da cadeia. No citral o O é terminal (C=O), então a cadeia é homogênea."},
+      {t:"Heterogênea, saturada e aromática.", ok:false,
+       porque:"Erra em tudo: é homogênea, insaturada e não aromática."}
+    ]
+  },
+  {
+    tema: "Classificação de cadeias",
+    enunciado: "O ciclopentano, hidrocarboneto de fórmula molecular C₅H₁₀, possui cadeia:",
+    conceito: "Anel de cinco carbonos, todas as ligações simples: fechada (cíclica), saturada e homogênea. Não é aromática — aromático exige anel com duplas alternadas (benzeno).",
+    alternativas: [
+      {t:"Fechada (cíclica), saturada e homogênea.", ok:true,
+       porque:"O anel forma um ciclo; não há duplas nem triplas; só carbonos na cadeia."},
+      {t:"Aberta, saturada e ramificada.", ok:false,
+       porque:"O ciclopentano não tem extremidades de cadeia — os carbonos se fecham em anel."},
+      {t:"Fechada, insaturada e homogênea.", ok:false,
+       porque:"Todas as ligações são simples. O C₅H₁₀ tem a mesma fórmula de um alceno, mas a 'falta' de hidrogênios vem do anel, não de uma dupla."},
+      {t:"Aberta, insaturada e normal.", ok:false,
+       porque:"Nem aberta nem insaturada: é um ciclo saturado."},
+      {t:"Aromática.", ok:false,
+       porque:"Aromático requer anel de seis membros com três duplas conjugadas (como o benzeno). Ciclopentano é alicíclico."}
+    ]
+  },
+  {
+    tema: "Classificação de cadeias",
+    enunciado: "A cadeia carbônica do benzeno é classificada como:",
+    estrutura:"Anel de 6 carbonos com 3 duplas alternadas  →  C₆H₆",
+    conceito: "Aromática = anel com duplas conjugadas (alternadas). Alicíclica = anel sem aromaticidade. Fechada + insaturada + aromática é a tríade do benzeno.",
+    alternativas: [
+      {t:"Fechada, insaturada e aromática.", ok:true,
+       porque:"O anel de seis carbonos com três duplas alternadas caracteriza a aromaticidade."},
+      {t:"Fechada, saturada e alicíclica.", ok:false,
+       porque:"O benzeno é insaturado e aromático — alicíclico é o anel <b>não</b> aromático, como o cicloexano."},
+      {t:"Aberta, insaturada e normal.", ok:false,
+       porque:"O benzeno é um anel fechado; não existe cadeia aberta na molécula."},
+      {t:"Fechada, insaturada e alicíclica.", ok:false,
+       porque:"É fechada e insaturada, mas a conjugação das duplas faz dela <b>aromática</b>, não alicíclica."},
+      {t:"Aberta, saturada e homogênea.", ok:false,
+       porque:"Erra nos três critérios. O benzeno é o exemplo clássico de cadeia aromática."}
+    ]
+  },
+  {
+    tema: "Homogênea x heterogênea",
+    enunciado: "Qual dos compostos abaixo apresenta cadeia carbônica <strong>heterogênea</strong>?",
+    conceito: "A pegadinha mais comum da prova: heterogênea só quando o heteroátomo está <b>dentro</b> da cadeia, entre dois carbonos (—C—O—C—, —C—N—C—). Se o O está na ponta (álcool, aldeído, ácido), a cadeia é homogênea.",
+    alternativas: [
+      {t:"H₃C—CH₂—O—CH₂—CH₃ (éter dietílico)", ok:true,
+       porque:"O oxigênio está entre dois carbonos, interrompendo a sequência de carbonos — cadeia heterogênea."},
+      {t:"H₃C—CH₂—OH (etanol)", ok:false,
+       porque:"O oxigênio está na extremidade, ligado a <b>um só</b> carbono. Ele é grupo funcional, não faz parte da cadeia → homogênea."},
+      {t:"H₃C—CH₂—CH₂—CH₃ (butano)", ok:false,
+       porque:"Só carbonos na cadeia — homogênea."},
+      {t:"Ciclopentano", ok:false,
+       porque:"Anel formado apenas por carbonos — homogênea."},
+      {t:"H₂C=CH—CH₃ (propeno)", ok:false,
+       porque:"A dupla gera insaturação, mas a cadeia continua só de carbonos — homogênea."}
+    ]
+  },
+  {
+    tema: "Ramificada: quando?",
+    enunciado: "Uma cadeia carbônica aberta é classificada como <strong>ramificada</strong> quando:",
+    conceito: "Ramificação carbônica = o caminho se divide em mais de duas pontas. Isso aparece quando existe carbono terciário ou quaternário. Insaturação e heteroátomo <b>não</b> ramificam.",
+    alternativas: [
+      {t:"Apresenta carbono terciário ou quaternário, criando mais de duas extremidades.", ok:true,
+       porque:"É o critério prático: mais de dois 'fins' de cadeia significa ramificação. No 2,2,4-trimetilpentano, o C2 (quaternário) e o C4 (terciário) são os pontos de ramificação."},
+      {t:"Apresenta ligação dupla ou tripla em qualquer posição.", ok:false,
+       porque:"Isso define <b>insaturação</b>, um critério separado. Um alceno linear (pent-1-eno) é insaturado e normal."},
+      {t:"Contém um heteroátomo entre carbonos.", ok:false,
+       porque:"Isso define cadeia <b>heterogênea</b>. São critérios independentes."},
+      {t:"Tem mais de cinco átomos de carbono.", ok:false,
+       porque:"Tamanho não define ramificação: o hexano tem 6 carbonos e é normal."},
+      {t:"É fechada (forma um anel).", ok:false,
+       porque:"Cadeia fechada (cíclica) é outra classificação; a pergunta trata de cadeia aberta."}
+    ]
+  },
+  {
+    tema: "Testosterona (UERJ)",
+    enunciado: "A testosterona, um dos principais hormônios sexuais masculinos, apresenta a fórmula estrutural plana com quatro anéis condensados. O número de átomos de carbono classificados como <strong>terciários</strong> na molécula é:",
+    estrutura:"Núcleo esteroidal: 3 anéis de 6 + 1 anel de 5 condensados\nC=O no C3 · OH no C17 · metilas em C10 e C13",
+    conceito: "Percorra os carbonos das junções de anéis. Terciário = três ligações a outros carbonos; quaternário = quatro. Na testosterona, quatro carbonos de junção são terciários e dois são quaternários (os que sustentam as metilas C18 e C19).",
+    alternativas: [
+      {t:"4", ok:true,
+       porque:"São terciários os carbonos das junções de anéis que recebem três ligações C–C (C5, C8, C9 e C14). Os carbonos C10 e C13 são quaternários, pois além das junções sustentam as metilas."},
+      {t:"2", ok:false,
+       porque:"2 é o número de carbonos <b>quaternários</b> (C10 e C13, que carregam as metilas C19 e C18)."},
+      {t:"6", ok:false,
+       porque:"6 é o total de carbonos de junção, mas dois deles são quaternários — terciários são só 4."},
+      {t:"5", ok:false,
+       porque:"Inclui-se aí um carbono que na verdade tem quatro ligações C–C (quaternário) ou o C17, que se liga a apenas dois carbonos."},
+      {t:"8", ok:false,
+       porque:"Não há oito carbonos com três vizinhos carbono; a contagem correta dos terciários é 4."}
+    ]
+  },
+  {
+    tema: "Testosterona (UERJ)",
+    enunciado: "A fórmula molecular da testosterona é:",
+    conceito: "Conte os átomos: 19 carbonos, 2 oxigênios (C=O e OH). Pelos hidrogênios, use a insaturação: 4 anéis + 1 C=C + 1 C=O = 6 insaturações.",
+    alternativas: [
+      {t:"C₁₉H₂₈O₂", ok:true,
+       porque:"Para C19, o alcano saturado teria H = 2·19+2 = 40. Cada insaturação retira 2 H: 6 insaturações → 40 − 12 = 28 H. Logo C₁₉H₂₈O₂."},
+      {t:"C₁₉H₃₀O₂", ok:false,
+       porque:"H₃₀ corresponderia a apenas 5 insaturações; a molécula tem 4 anéis + 1 C=C + 1 C=O = 6."},
+      {t:"C₁₇H₂₈O₂", ok:false,
+       porque:"São 17 carbonos do esqueleto esteroidal <b>mais</b> as duas metilas de junção (C18 e C19) = 19 carbonos."},
+      {t:"C₁₉H₂₈O", ok:false,
+       porque:"Falta um oxigênio: a testosterona tem a carbonila no C3 e a hidroxila no C17 — dois oxigênios."},
+      {t:"C₁₈H₂₈O₂", ok:false,
+       porque:"Seriam 18 carbonos; o esqueleto androstano tem 19 (17 do núcleo + 2 metilas)."}
+    ]
+  },
+  {
+    tema: "Nomenclatura",
+    enunciado: "Qual das fórmulas abaixo corresponde ao <strong>pent-1-eno</strong>?",
+    conceito: "Nome = prefixo (nº de carbonos) + infixo (tipo de ligação) + sufixo (função). Pent = 5 carbonos; 1-en = dupla começando no carbono 1; o = hidrocarboneto.",
+    alternativas: [
+      {t:"H₂C = CH — CH₂ — CH₂ — CH₃", ok:true,
+       porque:"Cinco carbonos, uma dupla e ela começa no C1 (primeiro carbono da cadeia)."},
+      {t:"H₃C — CH = CH — CH₂ — CH₃", ok:false,
+       porque:"Essa é o <b>pent-2-eno</b>: a dupla começa no C2. Numerar pelo lado que dá o menor número à insaturação é a regra."},
+      {t:"H₂C = C(CH₃) — CH₂ — CH₃", ok:false,
+       porque:"É um 2-metilbut-1-eno: cadeia principal de 4 carbonos com ramificação metila."},
+      {t:"H₃C — CH₂ — CH₂ — CH₂ — CH₃", ok:false,
+       porque:"Pentano — hidrocarboneto saturado, sem dupla ligação."},
+      {t:"H₂C = CH — CH₂ — CH₃", ok:false,
+       porque:"But-1-eno: tem 4 carbonos, não 5."}
+    ]
+  },
+  {
+    tema: "Nomenclatura",
+    enunciado: "O composto de fórmula H₃C — CH₂ — C ≡ C — CH₂ — CH₃ chama-se:",
+    conceito: "Seis carbonos → hex; tripla → in; posição 3 (contando da esquerda ou da direita, a tripla fica entre C3 e C4 — o menor número é 3).",
+    alternativas: [
+      {t:"Hex-3-ino", ok:true,
+       porque:"6 carbonos, uma tripla entre o terceiro e o quarto carbono. Numerando de qualquer lado, a tripla recebe o número 3."},
+      {t:"Hex-2-ino", ok:false,
+       porque:"A tripla não está entre C2 e C3; contando do CH₃ terminal, ela aparece no carbono 3."},
+      {t:"Hex-3-eno", ok:false,
+       porque:"-'eno' indica ligação dupla. Aqui a insaturação é uma tripla, então o infixo é -in-."},
+      {t:"Hexano", ok:false,
+       porque:"Hexano é saturado (C₆H₁₄). Esse composto tem tripla e fórmula C₆H₁₀."},
+      {t:"3-metilpent-1-ino", ok:false,
+       porque:"Descreve uma cadeia de 5 carbonos com ramificação — não é o caso: aqui a cadeia é linear de 6 carbonos."}
+    ]
+  },
+  {
+    tema: "Nomenclatura",
+    enunciado: "Qual é a fórmula estrutural do <strong>hexa-1,3-dieno</strong>?",
+    conceito: "Hexa = 6 carbonos; dien = <b>duas</b> duplas; 1,3 = elas começam nos carbonos 1 e 3 (duplas conjugadas).",
+    alternativas: [
+      {t:"H₂C = CH — CH = CH — CH₂ — CH₃", ok:true,
+       porque:"Seis carbonos, duplas iniciando em C1 e C3 — exatamente o que o nome dita."},
+      {t:"H₂C = CH — CH₂ — CH = CH — CH₃", ok:false,
+       porque:"Essa é o hexa-1,4-dieno: a segunda dupla começa no C4, não no C3."},
+      {t:"H₃C — CH = CH — CH = CH — CH₃", ok:false,
+       porque:"Essa é o hexa-2,4-dieno — as duplas começam em C2 e C4."},
+      {t:"H₂C = CH — CH₂ — CH₂ — CH = CH₂", ok:false,
+       porque:"Hexa-1,5-dieno: duplas nas duas extremidades, separadas por dois CH₂."},
+      {t:"H₂C = CH — CH₂ — CH₂ — CH₂ — CH₃", ok:false,
+       porque:"É o hex-1-eno: só uma dupla ligação."}
+    ]
+  },
+  {
+    tema: "Fórmula molecular",
+    enunciado: "A fórmula molecular do hexa-1,3-dieno é:",
+    conceito: "Hidrocarboneto de cadeia aberta com 6 carbonos e duas duplas: parte de C₆H₁₄ (alcano) e retira 2 H por insaturação → C₆H₁₀.",
+    alternativas: [
+      {t:"C₆H₁₀", ok:true,
+       porque:"Alcano de 6 C = C₆H₁₄; duas duplas retiram 4 H → C₆H₁₀."},
+      {t:"C₆H₁₄", ok:false,
+       porque:"É a fórmula do hexano, totalmente saturado."},
+      {t:"C₆H₁₂", ok:false,
+       porque:"É a fórmula de um alceno com <b>uma</b> dupla ou de um cicloalcano de 6 carbonos."},
+      {t:"C₆H₈", ok:false,
+       porque:"H₈ corresponde a três insaturações (por exemplo, um trieno), não a duas duplas."},
+      {t:"C₆H₆", ok:false,
+       porque:"É a fórmula do benzeno (aromático), não de um dieno acíclico."}
+    ]
+  },
+  {
+    tema: "Fórmulas gerais",
+    enunciado: "Qual é a fórmula geral de um <strong>alcano acíclico</strong> (cadeia aberta e saturada)?",
+    conceito: "Só ligações simples e cadeia aberta: CₙH₂ₙ₊₂. Alceno acíclico: CₙH₂ₙ. Alcino ou alcadieno acíclico: CₙH₂ₙ₋₂. Cicloalcano: CₙH₂ₙ.",
+    alternativas: [
+      {t:"CₙH₂ₙ₊₂", ok:true,
+       porque:"Alcano acíclico tem o máximo de hidrogênios possível para n carbonos: 2n + 2."},
+      {t:"CₙH₂ₙ", ok:false,
+       porque:"É a fórmula de alcenos acíclicos e de cicloalcanos — uma insaturação a mais."},
+      {t:"CₙH₂ₙ₋₂", ok:false,
+       porque:"É a fórmula de alcinos e alcadienos acíclicos (duas insaturações)."},
+      {t:"CₙH₂ₙ₊₁", ok:false,
+       porque:"CₙH₂ₙ₊₁ é a fórmula de um <b>radical</b> alquila (falta um H), não de uma molécula estável."},
+      {t:"CₙHₙ", ok:false,
+       porque:"Não corresponde a nenhuma família de hidrocarbonetos — hidrogênio e carbono nunca ficam 1:1 em alcanos."}
+    ]
+  },
+  {
+    tema: "Radicais",
+    enunciado: "O radical obtido quando se retira <strong>um</strong> átomo de hidrogênio do metano (CH₄) é chamado de:",
+    conceito: "Radical alquila = alcano menos um H. Metano → metil (–CH₃); etano → etil (–C₂H₅); propano → propil (–C₃H₇).",
+    alternativas: [
+      {t:"Metil (ou metila), –CH₃", ok:true,
+       porque:"CH₄ perde um H e sobra CH₃•, o radical metila. É o radical mais simples."},
+      {t:"Etil (ou etila), –C₂H₅", ok:false,
+       porque:"Etil vem do etano (2 carbonos). O metano só tem um carbono."},
+      {t:"Propil (ou propila), –C₃H₇", ok:false,
+       porque:"Propil vem do propano, com 3 carbonos."},
+      {t:"Isopropil (propan-2-ila)", ok:false,
+       porque:"É um radical de 3 carbonos com a valência livre no carbono central — precisa de propano, não de metano."},
+      {t:"Terc-butil (terc-butila)", ok:false,
+       porque:"Radical de 4 carbonos com valência livre em carbono terciário — vem do isobutano."}
+    ]
+  },
+  {
+    tema: "Radicais",
+    enunciado: "O grupo <strong>isopropila</strong> (propan-2-ila) é representado por:",
+    estrutura:"n-propila:      –CH₂—CH₂—CH₃   (valência livre na ponta)\nisopropila:     –CH(CH₃)₂     (valência livre no carbono do meio)",
+    conceito: "A valência livre (o traço que liga à cadeia principal) é o que diferencia os isômeros de posição dos radicais. No propil ela fica na extremidade; no isopropil, no carbono central.",
+    alternativas: [
+      {t:"–CH(CH₃)₂", ok:true,
+       porque:"Três carbonos com a ligação livre no carbono central (secundário) — é o isopropil. Também se escreve (CH₃)₂CH–."},
+      {t:"–CH₂—CH₂—CH₃", ok:false,
+       porque:"Esse é o <b>n-propil</b> (propila normal): valência livre no carbono da ponta."},
+      {t:"–C(CH₃)₃", ok:false,
+       porque:"Esse é o <b>terc-butil</b>: quatro carbonos, valência livre num carbono quaternário."},
+      {t:"–CH(CH₃)—CH₂—CH₃", ok:false,
+       porque:"Esse é o <b>sec-butil</b> (butan-2-ila): quatro carbonos, valência livre num carbono secundário."},
+      {t:"–CH₂—CH(CH₃)₂", ok:false,
+       porque:"Esse é o <b>isobutil</b>: quatro carbonos, valência livre no CH₂ da ponta."}
+    ]
+  },
+  {
+    tema: "Radicais",
+    enunciado: "O radical <strong>terc-butila</strong> corresponde a:",
+    conceito: "O prefixo indica a posição da valência livre: n- = ponta, sec-/iso- = carbono secundário, terc- = carbono terciário (a valência livre fica num carbono ligado a três outros).",
+    alternativas: [
+      {t:"–C(CH₃)₃", ok:true,
+       porque:"Quatro carbonos e a valência livre no carbono central, ligado a três metilas — carbono terciário, daí 'terc'."},
+      {t:"–CH₂—CH₂—CH₂—CH₃", ok:false,
+       porque:"Esse é o <b>n-butil</b>: cadeia linear de quatro carbonos com valência livre na ponta."},
+      {t:"–CH(CH₃)—CH₂—CH₃", ok:false,
+       porque:"Esse é o <b>sec-butil</b>: valência livre num carbono secundário (ligado a dois carbonos)."},
+      {t:"–CH₂—CH(CH₃)₂", ok:false,
+       porque:"Esse é o <b>isobutil</b>: valência livre no CH₂ terminal, com ramificação metila."},
+      {t:"–CH(CH₃)₂", ok:false,
+       porque:"Esse é o <b>isopropil</b>, com apenas três carbonos."}
+    ]
+  },
+  {
+    tema: "Radicais na estrutura",
+    enunciado: "Na estrutura abaixo, quais radicais estão ligados à cadeia principal?",
+    estrutura:"CH₃–CH(CH₃)–CH(CH₂CH₃)–CH(CH₃)–CH₃",
+    conceito: "A pergunta da sua lista (questão 8) não pede o nome do composto: pede <b>quais radicais</b> aparecem como ramificações. Aqui há metilas (–CH₃) e um grupo etila (–CH₂CH₃).",
+    alternativas: [
+      {t:"Metil e etil", ok:true,
+       porque:"As ramificações são três metilas e uma etila (o CH₂—CH₃). O composto seria o 3-etil-2,4-dimetilpentano."},
+      {t:"Somente metil", ok:false,
+       porque:"Há também um grupo de dois carbonos (–CH₂—CH₃) ligado à cadeia, que é uma etila."},
+      {t:"Propil e metil", ok:false,
+       porque:"Propil teria três carbonos na ramificação. Nenhuma ramificação aqui tem três carbonos."},
+      {t:"Etil e propil", ok:false,
+       porque:"Não existe propil na estrutura; as ramificações de um carbono são metilas."},
+      {t:"Isopropil e etil", ok:false,
+       porque:"Isopropil exigiria uma ramificação com a valência livre no carbono central de três carbonos — não é o caso."}
+    ]
+  },
+  {
+    tema: "Aplicação: contagem",
+    enunciado: "No 3-etil-2,4-dimetilpentano, o número de carbonos <strong>terciários</strong> é:",
+    estrutura:"CH₃–CH(CH₃)–CH(CH₂CH₃)–CH(CH₃)–CH₃",
+    conceito: "Para contar terciários em cadeia ramificada, olhe cada carbono da cadeia principal e conte vizinhos carbono (incluindo os das ramificações).",
+    alternativas: [
+      {t:"3", ok:true,
+       porque:"C2 liga-se a C1, C3 e à metila → terciário. C3 liga-se a C2, C4 e ao CH₂ da etila → terciário. C4 liga-se a C3, C5 e à metila → terciário. Total 3."},
+      {t:"2", ok:false,
+       porque:"São três: C2, C3 e C4 todos recebem três ligações C–C. Contar só as duas pontas ramificadas esquece o C3."},
+      {t:"1", ok:false,
+       porque:"Há mais de um carbono com três vizinhos carbono nessa estrutura."},
+      {t:"4", ok:false,
+       porque:"Não há carbono quaternário nesse composto — nenhum carbono tem quatro vizinhos carbono."},
+      {t:"5", ok:false,
+       porque:"5 é o total de carbonos da cadeia principal, não os terciários."}
+    ]
+  }
+];
+
+
+
+const stage   = document.getElementById('stage');
+const fill    = document.getElementById('fill');
+const count   = document.getElementById('count');
+const timerEl = document.getElementById('timer');
+const logEl   = document.getElementById('log');
+const LETTERS = ['a','b','c','d','e'];
+
+const LIMITE_SEG = 50 * 60;      // 50 minutos de prova
+const K_LOG    = 'simulado_organica_log_v3';     // historico de eventos
+const K_SESSAO = 'simulado_organica_sessao_v3';  // marcador de tentativa em andamento
+
+let QUIZ = [];        // versao com alternativas embaralhadas (a que aparece na tela)
+let idx = 0;
+let answers = [];
+let estado = 'intro'; // intro | quiz | done
+let fimEm = 0, inicioEm = 0, tickId = null;
+let pendente = null;  // alternativa selecionada aguardando confirmacao (-1 = pular)
+let tentativa = 0;
+
+/* ---------------- armazenamento seguro ---------------- */
+const mem = {};
+function lsGet(k, def){
+  try { const v = localStorage.getItem(k); return v === null ? def : JSON.parse(v); }
+  catch(e){ return k in mem ? mem[k] : def; }
+}
+function lsSet(k, v){
+  try { localStorage.setItem(k, JSON.stringify(v)); }
+  catch(e){ mem[k] = v; }
+}
+function lsDel(k){
+  try { localStorage.removeItem(k); } catch(e){ delete mem[k]; }
+}
+
+/* ---------------- registro de tentativas ---------------- */
+function logGet(){ const l = lsGet(K_LOG, []); return Array.isArray(l) ? l : []; }
+function logAdd(tipo, nota, extra){
+  const l = logGet();
+  l.push(Object.assign({t: Date.now(), tipo, nota: nota || '', tentativa}, extra || {}));
+  while (l.length > 60) l.shift();
+  lsSet(K_LOG, l);
+  renderLog();
+}
+
+function horaCurta(ts){
+  const d = new Date(ts);
+  return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+}
+function quando(ts){
+  const diff = Math.round((Date.now() - ts) / 60000);
+  if (diff < 1) return 'agora';
+  if (diff < 60) return 'há ' + diff + ' min';
+  const d = Math.round(diff / 60);
+  if (d < 24) return 'há ' + d + ' h';
+  return 'há ' + Math.round(d / 24) + ' d';
+}
+
+function resumoLog(){
+  const l = logGet();
+  const inicios   = l.filter(e => e.tipo === 'iniciou').length;
+  const reinicios = l.filter(e => e.tipo === 'reiniciou').length;
+  return {
+    inicios,
+    tentativas:  inicios + reinicios,          // toda vez que a prova recomeça, conta
+    reinicios,
+    interrupcoes:l.filter(e => e.tipo === 'interrompeu').length,
+    conclusoes:  l.filter(e => e.tipo === 'concluiu' || e.tipo === 'tempo').length,
+    ultimo:      l.length ? l[l.length - 1].t : 0
+  };
+}
+
+const ROTULO = {
+  iniciou:    '▶ Iniciou',
+  reiniciou:  '↻ Reiniciou',
+  interrompeu:'⏸ Saiu',
+  concluiu:   '✓ Concluiu',
+  tempo:      '⏱ Tempo esgotado'
+};
+
+function renderLog(){
+  const r = resumoLog();
+  const badges = document.getElementById('logBadges');
+  const note   = document.getElementById('logNote');
+  const list   = document.getElementById('logList');
+  const foot   = document.getElementById('logFoot');
+  if (!badges) return;
+
+  const b = [];
+  b.push(`<span class="badge ${r.tentativas?'':'zero'}">Tentativas: ${r.tentativas}</span>`);
+  b.push(`<span class="badge ${r.reinicios?'warn':'zero'}">Reinícios: ${r.reinicios}</span>`);
+  b.push(`<span class="badge ${r.interrupcoes?'bad':'zero'}">Saídas no meio: ${r.interrupcoes}</span>`);
+  b.push(`<span class="badge ${r.conclusoes?'good':'zero'}">Concluídas: ${r.conclusoes}</span>`);
+  if (r.ultimo) b.push(`<span class="badge zero">última: ${quando(r.ultimo)}</span>`);
+  badges.innerHTML = b.join('');
+
+  const total = r.reinicios + r.interrupcoes;
+  if (total > 0){
+    note.hidden = false;
+    note.innerHTML = `Este simulado já foi <b>reiniciado ${r.reinicios}×</b> e <b>interrompido ${r.interrupcoes}×</b> ` +
+      `(sair ou recarregar a página no meio conta como interrupção). O registro fica salvo neste navegador.`;
+  } else {
+    note.hidden = true;
+  }
+
+  const l = logGet().slice().reverse();
+  list.innerHTML = l.map(e => `
+    <li>
+      <span class="log-time">${horaCurta(e.t)}</span>
+      <span class="log-tipo ${e.tipo}">${ROTULO[e.tipo] || e.tipo}</span>
+      <span class="log-nota">${e.nota || ''}</span>
+    </li>`).join('');
+  foot.hidden = !l.length;
+}
+
+/* ---------------- sessao em andamento ---------------- */
+function marcarSessao(){
+  lsSet(K_SESSAO, {
+    inicio: inicioEm, tentativa,
+    idx: idx + 1,
+    respondidas: answers.length,
+    total: QUESTIONS.length,
+    naTela: Date.now()
+  });
+}
+function limparSessao(){ lsDel(K_SESSAO); }
+
+// ao abrir a pagina: se havia tentativa em andamento, isso conta como interrupcao
+function registrarSaidaAnterior(){
+  const s = lsGet(K_SESSAO, null);
+  if (!s) return false;
+  tentativa = s.tentativa || 1;
+  logAdd('interrompeu',
+    `tentativa ${s.tentativa} parada na questão ${s.idx}/${s.total} (${s.respondidas} respondida(s))`,
+    {t: s.naTela || s.inicio});
+  limparSessao();
+  return true;
+}
+
+/* ---------------- embaralhamento equilibrado ---------------- */
+function shuffleArr(a){
+  const r = a.slice();
+  for (let i = r.length - 1; i > 0; i--){
+    const k = Math.floor(Math.random() * (i + 1));
+    [r[i], r[k]] = [r[k], r[i]];
+  }
+  return r;
+}
+
+function montarQuiz(){
+  const n = QUESTIONS.length;
+  const cota = Math.floor(n / 5);
+  const sobra = n % 5;
+  const letras = shuffleArr([0,1,2,3,4]).slice(0, sobra);
+  let pool = [];
+  for (let l = 0; l < 5; l++){
+    const qtd = cota + (letras.includes(l) ? 1 : 0);
+    for (let k = 0; k < qtd; k++) pool.push(l);
+  }
+  pool = shuffleArr(pool);
+
+  return QUESTIONS.map((q, qi) => {
+    const correta = q.alternativas.findIndex(a => a.ok);
+    const erradas = shuffleArr(q.alternativas.map((_, k) => k).filter(k => k !== correta));
+    const alvo = pool[qi];
+    const ordem = [];
+    let pe = 0;
+    for (let pos = 0; pos < q.alternativas.length; pos++){
+      ordem.push(pos === alvo ? correta : erradas[pe++]);
+    }
+    return {
+      tema: q.tema,
+      enunciado: q.enunciado,
+      estrutura: q.estrutura,
+      conceito: q.conceito,
+      alternativas: ordem.map(k => q.alternativas[k])
+    };
+  });
+}
+
+/* ---------------- cronometro ---------------- */
+function fmt(seg){
+  seg = Math.max(0, Math.round(seg));
+  return String(Math.floor(seg / 60)).padStart(2,'0') + ':' + String(seg % 60).padStart(2,'0');
+}
+function restanteSeg(){ return (fimEm - Date.now()) / 1000; }
+
+function tick(){
+  if (estado !== 'quiz') return;
+  const seg = restanteSeg();
+  timerEl.textContent = fmt(seg);
+  timerEl.classList.toggle('warn',   seg <= 600 && seg > 300);
+  timerEl.classList.toggle('danger', seg <= 300);
+  if (seg <= 0) encerrarPorTempo();
+}
+function iniciarTimer(){
+  inicioEm = Date.now();
+  fimEm = inicioEm + LIMITE_SEG * 1000;
+  timerEl.classList.remove('hidden','warn','danger');
+  timerEl.textContent = fmt(LIMITE_SEG);
+  clearInterval(tickId);
+  tickId = setInterval(tick, 250);
+  tick();
+}
+function pararTimer(){ clearInterval(tickId); tickId = null; timerEl.classList.add('hidden'); }
+
+/* ---------------- telas ---------------- */
+function progress(){
+  const pct = (idx / QUESTIONS.length) * 100;
+  fill.style.width = pct + '%';
+  count.innerHTML = '<b>' + Math.min(idx + 1, QUESTIONS.length) + '</b> / ' + QUESTIONS.length;
+}
+
+function telaInicial(){
+  estado = 'intro';
+  pararTimer();
+  pendente = null;
+  fill.style.width = '0%';
+  count.innerHTML = '<b>' + QUESTIONS.length + '</b> questões';
+  renderLog();
+
+  const r = resumoLog();
+  const aviso = (r.reinicios + r.interrupcoes) > 0
+    ? `<p class="log-note" style="margin-top:16px">Atenção: este simulado já foi reiniciado <b>${r.reinicios}×</b> e interrompido <b>${r.interrupcoes}×</b>. Esse histórico aparece no topo durante toda a prova.</p>`
+    : '';
+
+  stage.innerHTML = `
+    <section class="card">
+      <span class="chip">Antes de começar</span>
+      <p class="q">Simulado de Química Orgânica — <strong>${QUESTIONS.length} questões</strong>, <strong>50 minutos</strong> de prova.</p>
+      <ul class="start-rules">
+        <li>O cronômetro começa em <b>Iniciar simulado</b> e não pausa.</li>
+        <li>Cada resposta pede <b>confirmação</b> antes de revelar o gabarito.</li>
+        <li>Se você sair ou recarregar no meio, isso é <b>registrado</b> no painel de tentativas lá em cima.</li>
+        <li>As alternativas são sorteadas a cada tentativa — a letra correta muda de lugar.</li>
+        <li>Ao chegar em 00:00, o simulado é encerrado e corrigido com o que você já respondeu.</li>
+      </ul>
+      ${aviso}
+      <div class="actions">
+        <span class="hint">Enter também inicia</span>
+        <button class="btn ghost" id="semTimer" type="button">Treinar sem tempo</button>
+        <button class="btn" id="iniciar" type="button">Iniciar simulado</button>
+      </div>
+    </section>`;
+  document.getElementById('iniciar').addEventListener('click', () => comecar(true));
+  document.getElementById('semTimer').addEventListener('click', () => comecar(false));
+}
+
+function comecar(comTempo, motivo){
+  QUIZ = montarQuiz();
+  idx = 0;
+  answers = [];
+  pendente = null;
+  estado = 'quiz';
+  tentativa = resumoLog().tentativas + 1;
+  if (comTempo) iniciarTimer(); else { inicioEm = Date.now(); pararTimer(); }
+
+  logAdd(motivo === 'reiniciou' ? 'reiniciou' : 'iniciou',
+         motivo === 'reiniciou'
+           ? `tentativa ${tentativa} — recomeçou do zero${comTempo ? ' com 50 min' : ' sem tempo'}`
+           : `tentativa ${tentativa} — ${comTempo ? '50 minutos' : 'sem tempo'}`);
+  marcarSessao();
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q = QUIZ[idx];
+  progress();
+  pendente = null;
+
+  const opts = q.alternativas.map((a, i) => `
+      <button class="opt" data-i="${i}" type="button">
+        <span class="key">${LETTERS[i]}</span>
+        <span class="txt">${a.t}</span>
+      </button>`).join('');
+
+  stage.innerHTML = `
+    <section class="card">
+      <span class="chip">${q.tema}</span>
+      <p class="q">${q.enunciado}</p>
+      ${q.estrutura ? `<div class="formula"><span class="lbl">estrutura</span>${q.estrutura}</div>` : ''}
+      <div class="opts" id="opts">${opts}</div>
+      <div id="confirmBox"></div>
+      <div id="fb"></div>
+      <div class="actions">
+        <span class="hint" id="hint">Escolha uma alternativa (teclas 1–5)</span>
+        <button class="btn ghost" id="restart" type="button">Reiniciar</button>
+        <button class="btn ghost" id="skip" type="button">Pular</button>
+        <button class="btn" id="next" type="button" disabled>Próxima</button>
+      </div>
+    </section>`;
+
+  document.getElementById('opts').addEventListener('click', e => {
+    const b = e.target.closest('.opt');
+    if (b && !b.classList.contains('locked')) selecionar(parseInt(b.dataset.i, 10));
+  });
+  document.getElementById('next').addEventListener('click', next);
+  document.getElementById('skip').addEventListener('click', pedirPular);
+  document.getElementById('restart').addEventListener('click', pedirReinicio);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ---- etapa 1: selecionar (nao revela nada) ---- */
+function selecionar(i){
+  const q = QUIZ[idx];
+  const fb = document.getElementById('fb');
+  if (estado !== 'quiz' || (fb && fb.dataset.done)) return;
+  if (i < 0 || i >= q.alternativas.length) return;
+
+  pendente = i;
+
+  document.querySelectorAll('.opt').forEach(el => {
+    el.classList.toggle('sel', parseInt(el.dataset.i, 10) === i);
+  });
+
+  const box = document.getElementById('confirmBox');
+  box.innerHTML = `
+    <div class="confirm">
+      <p class="confirm-q">
+        Confirmar esta resposta?
+        <span class="pick"><b>${LETTERS[i]})</b> ${q.alternativas[i].t}</span>
+      </p>
+      <div class="confirm-btns">
+        <button class="btn ghost" id="trocar" type="button">Trocar</button>
+        <button class="btn" id="confirmar" type="button">Confirmar resposta</button>
+      </div>
+    </div>`;
+  document.getElementById('confirmar').addEventListener('click', confirmar);
+  document.getElementById('trocar').addEventListener('click', limparSelecao);
+  document.getElementById('hint').textContent = 'Confirme para ver o gabarito (Enter confirma)';
+  document.getElementById('confirmar').focus({preventScroll:true});
+}
+
+function limparSelecao(){
+  pendente = null;
+  document.querySelectorAll('.opt').forEach(el => el.classList.remove('sel'));
+  const box = document.getElementById('confirmBox');
+  if (box) box.innerHTML = '';
+  const hint = document.getElementById('hint');
+  if (hint) hint.textContent = 'Escolha uma alternativa (teclas 1–5)';
+}
+
+function confirmar(){
+  if (pendente === null) return;
+  const escolha = pendente;
+  document.getElementById('confirmBox').innerHTML = '';
+  revelar(escolha);
+}
+
+/* ---- pular tambem passa por confirmacao ---- */
+function pedirPular(){
+  const fb = document.getElementById('fb');
+  if (estado !== 'quiz' || (fb && fb.dataset.done)) return;
+  pendente = -1;
+  document.querySelectorAll('.opt').forEach(el => el.classList.remove('sel'));
+  const box = document.getElementById('confirmBox');
+  box.innerHTML = `
+    <div class="confirm">
+      <p class="confirm-q">
+        Pular esta questão? Ela entra como <b>não respondida</b> no resultado.
+      </p>
+      <div class="confirm-btns">
+        <button class="btn ghost" id="trocar" type="button">Voltar</button>
+        <button class="btn danger-btn" id="confirmar" type="button">Pular mesmo assim</button>
+      </div>
+    </div>`;
+  document.getElementById('confirmar').addEventListener('click', confirmar);
+  document.getElementById('trocar').addEventListener('click', limparSelecao);
+  document.getElementById('confirmar').focus({preventScroll:true});
+}
+
+/* ---- reinicio com confirmacao e registro ---- */
+function pedirReinicio(){
+  if (estado !== 'quiz') return;
+  boxReinicio();
+}
+
+function boxReinicio(){
+  const box = document.getElementById('confirmBox');
+  const resp = answers.length;
+  box.innerHTML = `
+    <div class="confirm" style="border-color:var(--no-line);background:var(--no-soft)">
+      <p class="confirm-q">
+        Reiniciar o simulado? Você está na <b>questão ${idx + 1} de ${QUESTIONS.length}</b> com
+        <b>${resp} resposta(s)</b> registrada(s). Tudo é apagado e o reinício fica marcado no
+        painel de registro do topo.
+      </p>
+      <div class="confirm-btns">
+        <button class="btn ghost" id="trocar" type="button">Cancelar</button>
+        <button class="btn danger-btn" id="confirmar" type="button">Sim, reiniciar</button>
+      </div>
+    </div>`;
+  document.getElementById('confirmar').addEventListener('click', () => {
+    comecar(true, 'reiniciou');
+  });
+  document.getElementById('trocar').addEventListener('click', () => {
+    if (pendente === null) limparSelecao(); else selecionar(pendente);
+  });
+  document.getElementById('confirmar').focus({preventScroll:true});
+}
+
+/* ---- etapa 2: revelar gabarito ---- */
+function revelar(chosen){
+  if (estado !== 'quiz') return;
+  const q = QUIZ[idx];
+  const fb = document.getElementById('fb');
+  if (fb.dataset.done) return;
+  fb.dataset.done = '1';
+
+  const ok = chosen >= 0 && q.alternativas[chosen].ok;
+  answers.push({i: idx, chosen, ok, tema: q.tema});
+  pendente = null;
+  marcarSessao();
+
+  document.querySelectorAll('.opt').forEach(el => {
+    const i = parseInt(el.dataset.i, 10);
+    const a = q.alternativas[i];
+    el.classList.remove('sel');
+    el.classList.add('locked');
+    if (a.ok){
+      el.classList.add('correct');
+      el.insertAdjacentHTML('beforeend', '<span class="mark">✓</span>');
+    } else if (i === chosen){
+      el.classList.add('wrong');
+      el.insertAdjacentHTML('beforeend', '<span class="mark">✕</span>');
+    } else {
+      el.classList.add('dim');
+    }
+  });
+
+  const why = q.alternativas.map((a, i) => {
+    const cls = a.ok ? 'good' : 'bad';
+    const picked = i === chosen ? ' picked' : '';
+    return `<li class="${cls}${picked}"><b class="lbl">${LETTERS[i]}</b>${a.porque}</li>`;
+  }).join('');
+
+  const verdict = chosen === -1
+    ? `<div class="verdict no">⏭ Você pulou esta questão</div>`
+    : ok
+      ? `<div class="verdict ok">✓ Resposta correta</div>`
+      : `<div class="verdict no">✕ Resposta incorreta — a correta é a letra ${LETTERS[q.alternativas.findIndex(a => a.ok)]}</div>`;
+
+  fb.innerHTML = `
+    <div class="fb">
+      ${verdict}
+      <p class="concept">${q.conceito}</p>
+      <ul class="why">${why}</ul>
+    </div>`;
+
+  const nextBtn = document.getElementById('next');
+  nextBtn.disabled = false;
+  nextBtn.textContent = (idx === QUESTIONS.length - 1) ? 'Ver resultado' : 'Próxima';
+  document.getElementById('skip').style.display = 'none';
+  document.getElementById('hint').textContent = ok ? 'Boa. Enter para continuar.' : 'Leia as explicações e siga com Enter.';
+  nextBtn.focus({preventScroll:true});
+}
+
+function next(){
+  const fb = document.getElementById('fb');
+  if (!fb || !fb.dataset.done) return;
+  idx++;
+  if (idx >= QUESTIONS.length) return results();
+  marcarSessao();
+  renderQuestion();
+}
+
+function encerrarPorTempo(){
+  pararTimer();
+  results(true);
+}
+
+function results(porTempo){
+  estado = 'done';
+  pararTimer();
+  limparSessao();
+
+  const segUsados = porTempo ? LIMITE_SEG : Math.min(LIMITE_SEG, Math.round((Date.now() - inicioEm) / 1000));
+  fill.style.width = '100%';
+
+  const right = answers.filter(a => a.ok).length;
+  const total = QUESTIONS.length;
+  const pct = Math.round((right / total) * 100);
+  const semResposta = total - answers.length;
+
+  logAdd(porTempo ? 'tempo' : 'concluiu',
+         `tentativa ${tentativa} — ${right}/${total} (${pct}%) em ${fmt(segUsados)}`);
+
+  const byTheme = {};
+  answers.forEach(a => {
+    byTheme[a.tema] = byTheme[a.tema] || {t:0, ok:0};
+    byTheme[a.tema].t++;
+    if (a.ok) byTheme[a.tema].ok++;
+  });
+
+  const rows = Object.entries(byTheme).map(([tema, v]) => {
+    const p = Math.round((v.ok / v.t) * 100);
+    const cls = p >= 80 ? 'ok' : p >= 50 ? 'mid' : 'no';
+    return `<tr><td>${tema}</td><td class="num">${v.ok}/${v.t}</td>
+            <td class="num"><span class="pill ${cls}">${p}%</span></td></tr>`;
+  }).join('');
+
+  const errors = answers.filter(a => !a.ok);
+  const rev = errors.length
+    ? `<ul class="rev-list">${errors.map(a => {
+        const q = QUIZ[a.i];
+        const corr = q.alternativas.find(x => x.ok);
+        return `<li><b>Questão ${a.i + 1} · ${q.tema}</b>
+                  ${a.chosen === -1 ? 'Você pulou. ' : ''}Correta (${LETTERS[q.alternativas.findIndex(x => x.ok)]}): ${corr.t}</li>`;
+      }).join('')}</ul>`
+    : `<p class="sub" style="margin-top:18px">Nenhum erro. Nesse nível, vale revisar só os detalhes de nomenclatura de radicais (sec-, terc-, iso-) antes da prova.</p>`;
+
+  const msg = pct >= 85 ? 'Muito bom — você domina a classificação de cadeias.'
+            : pct >= 65 ? 'Bom caminho. Os erros estão concentrados em poucos temas: releia a tabela.'
+            : pct >= 45 ? 'Base em construção. Refaça as questões erradas com a explicação ao lado.'
+            : 'Vale voltar à teoria: tetravalência, classificação de carbonos e os três critérios de cadeia.';
+
+  const rr = resumoLog();
+  count.innerHTML = '<b>' + total + '</b> / ' + total;
+
+  stage.innerHTML = `
+    <section class="card">
+      <span class="chip">Resultado</span>
+      ${porTempo ? `<div class="banner">⏱ Tempo esgotado — o simulado foi encerrado e corrigido com as respostas já registradas.</div>` : ''}
+      <div class="score">
+        <div class="ring" style="--p:${pct}"><span>${pct}%</span></div>
+        <div class="score-txt">
+          <h2>${right} de ${total} corretas</h2>
+          <p>${msg}</p>
+        </div>
+      </div>
+      <div class="meta-row">
+        <span>Tentativa: <b>${tentativa}ª</b></span>
+        <span>Tempo: <b>${fmt(segUsados)}</b>${porTempo ? ' (limite)' : ' de 50:00'}</span>
+        <span>Em branco: <b>${semResposta}</b></span>
+        <span>Média por questão: <b>${answers.length >= 3 ? fmt(segUsados / answers.length) : '—'}</b></span>
+        <span>Reinícios + saídas: <b>${rr.reinicios + rr.interrupcoes}</b></span>
+      </div>
+      <table>
+        <thead><tr><th>Tema</th><th class="num">Acertos</th><th class="num">%</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <h3 style="font-size:15px;margin:22px 0 0">Revisar antes da prova</h3>
+      ${rev}
+      <div class="actions">
+        <span class="hint">Cada tentativa sorteia novas posições.</span>
+        <button class="btn ghost" id="inicio" type="button">Tela inicial</button>
+        <button class="btn" id="again" type="button">Refazer o simulado</button>
+      </div>
+    </section>`;
+
+  document.getElementById('again').addEventListener('click', () => comecar(true, 'reiniciou'));
+  document.getElementById('inicio').addEventListener('click', telaInicial);
+  renderLog();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ---------------- painel de registro ---------------- */
+document.getElementById('logToggle').addEventListener('click', () => {
+  const list = document.getElementById('logList');
+  const foot = document.getElementById('logFoot');
+  const abrir = list.hidden;
+  list.hidden = !abrir;
+  foot.hidden = !abrir || !logGet().length;
+  document.getElementById('logToggle').textContent = abrir ? 'Ocultar' : 'Histórico';
+});
+
+document.getElementById('logClear').addEventListener('click', () => {
+  lsSet(K_LOG, []);
+  renderLog();
+  const list = document.getElementById('logList');
+  list.hidden = true;
+  document.getElementById('logFoot').hidden = true;
+  document.getElementById('logToggle').textContent = 'Histórico';
+});
+
+/* ---------------- teclado ---------------- */
+document.addEventListener('keydown', e => {
+  if (estado === 'intro'){
+    if (e.key === 'Enter'){ e.preventDefault(); comecar(true); }
+    return;
+  }
+  if (estado !== 'quiz') return;
+  const fb = document.getElementById('fb');
+  if (!fb) return;
+
+  if (fb.dataset.done){
+    if (e.key === 'Enter'){ e.preventDefault(); next(); }
+    return;
+  }
+  if (/^[1-5]$/.test(e.key)){
+    const i = parseInt(e.key, 10) - 1;
+    if (i < QUIZ[idx].alternativas.length){ e.preventDefault(); selecionar(i); }
+    return;
+  }
+  if (e.key === 'Enter' && pendente !== null){ e.preventDefault(); confirmar(); }
+  if (e.key === 'Escape' && pendente !== null){ e.preventDefault(); limparSelecao(); }
+});
+
+/* ---------------- ao sair no meio da tentativa ---------------- */
+window.addEventListener('pagehide', () => { if (estado === 'quiz') marcarSessao(); });
+window.addEventListener('beforeunload', () => { if (estado === 'quiz') marcarSessao(); });
+
+/* ---------------- boot ---------------- */
+registrarSaidaAnterior();
+renderLog();
+telaInicial();
+</script>
+</body>
+</html>
