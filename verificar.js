@@ -94,6 +94,15 @@ Q.forEach((q, i) => {
 
   temas[q.tema] = (temas[q.tema] || 0) + 1;
 
+  // figura: se existir, precisa ser SVG embutido (nao imagem externa)
+  if ('figura' in q && q.figura) {
+    if (typeof q.figura !== 'string') erros.push(rot + ': campo "figura" invalido (nao e texto).');
+    else {
+      if (!/<svg[\s>]/i.test(q.figura)) erros.push(rot + ': "figura" nao contem uma tag <svg>.');
+      if (/<img|xlink:href=[\"']https?:|src=[\"']https?:/i.test(q.figura)) erros.push(rot + ': "figura" aponta para imagem externa (precisa ser SVG embutido).');
+    }
+  }
+
   // aula do assunto, se o simulado tiver esse recurso
   if ('licao' in q && (!q.licao || typeof q.licao !== 'string'))
     erros.push(rot + ': campo "licao" presente mas invalido.');
@@ -133,6 +142,8 @@ console.log('');
 console.log('  Arquivo:     ' + arquivo);
 console.log('  Questoes:    ' + Q.length);
 if (aulas) console.log('  Aulas:       ' + aulas.length);
+const nFig = Q.filter(q => q.figura).length;
+if (nFig) console.log('  Figuras:     ' + nFig + ' questoes com diagrama');
 console.log('  Temas:       ' + Object.keys(temas).length);
 Object.entries(temas).forEach(([t, n]) => console.log('     - ' + t + ': ' + n));
 console.log('  Gabarito no arquivo: ' + Object.entries(dist).map(([k, v]) => k + '=' + v).join('  '));
