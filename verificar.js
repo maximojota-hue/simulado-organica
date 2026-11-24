@@ -10,12 +10,16 @@ catch (e) { console.error('ERRO: nao consegui ler ' + arquivo); process.exit(1);
 
 /* extrai "const NOME = [ ... ]" com balanceamento de colchetes,
    respeitando strings (para nao quebrar em "]" dentro de texto) */
-function extrairArray(nome) {
+function extrairLiteral(nome) {
   const key = 'const ' + nome + ' =';
   const i = src.indexOf(key);
   if (i < 0) return null;
-  const j = src.indexOf('[', i);
-  if (j < 0) return null;
+  // aceita array [ ... ] ou objeto { ... }
+  let j = i + key.length;
+  while (j < src.length && /\s/.test(src[j])) j++;
+  const abre = src[j];
+  if (abre !== '[' && abre !== '{') return null;
+  const fecha = abre === '[' ? ']' : '}';
   let depth = 0, str = null, esc = false;
   for (let k = j; k < src.length; k++) {
     const c = src[k];
@@ -26,14 +30,14 @@ function extrairArray(nome) {
       continue;
     }
     if (c === '"' || c === "'" || c === '`') { str = c; continue; }
-    if (c === '[') depth++;
-    else if (c === ']') { depth--; if (depth === 0) return src.slice(j, k + 1); }
+    if (c === abre) depth++;
+    else if (c === fecha) { depth--; if (depth === 0) return src.slice(j, k + 1); }
   }
   return null;
 }
 
 function carregar(nome) {
-  const bruto = extrairArray(nome);
+  const bruto = extrairLiteral(nome);
   if (!bruto) return null;
   try { return eval('(' + bruto + ')'); }
   catch (e) { console.error('ERRO: o array ' + nome + ' nao e JavaScript valido: ' + e.message); return null; }
