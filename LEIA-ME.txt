@@ -1,0 +1,45 @@
+﻿SIMULADO DE QUIMICA ORGANICA - 2o ANO DO ENSINO MEDIO
+=====================================================
+26 questoes - gabarito comentado - cronometro de 50 minutos
+registro de tentativas, reinicios e saidas no meio
+
+
+>>> JEITO MAIS FACIL <<<
+Clique 2 vezes em:  ABRIR-SIMULADO.bat
+Pronto. O simulado abre no Chrome/Edge automaticamente.
+
+Se aparecer aviso azul do Windows ("O Windows protegeu o PC"),
+clique em "Mais informacoes" e depois em "Executar assim mesmo".
+Isso acontece com todo arquivo .bat baixado da internet.
+
+
+>>> SE PREFERIR ABRIR NA MAO <<<
+1. Clique com o botao DIREITO em "simulado.html"
+2. "Abrir com"  ->  Google Chrome  (ou Microsoft Edge)
+3. Se nao aparecer na lista: "Escolher outro aplicativo" e procure em
+   C:\Program Files\Google\Chrome\Application\chrome.exe
+
+!!! IMPORTANTE !!!
+NAO abra com Internet Explorer, Bloco de Notas, Word ou Excel.
+No Internet Explorer a tela fica em branco (o codigo e moderno demais).
+No Bloco de Notas aparece o codigo em vez do simulado.
+
+
+>>> COMO USAR <<<
+- Clique em "Iniciar simulado" (o cronometro de 50 min comeca e nao pausa)
+- Escolha a alternativa e clique em "Confirmar resposta"
+- So depois de confirmar aparece o gabarito com o motivo de CADA alternativa
+- O painel no topo conta tentativas, reinicios e saidas no meio
+- Ao chegar em 00:00 o simulado encerra e corrige sozinho
+
+
+>>> NAO PRECISA DE INTERNET <<<
+Tudo funciona offline. O historico fica salvo no navegador do computador.
+
+
+>>> NO CELULAR <<<
+Mande este link no WhatsApp, abre direto no navegador do celular:
+https://maximojota-hue.github.io/simulado-organica/
+
+
+Problemas? O .bat precisa estar na MESMA PASTA do simulado.html.
