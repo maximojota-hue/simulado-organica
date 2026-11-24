@@ -36,10 +36,29 @@ function extrairLiteral(nome) {
   return null;
 }
 
+/* figuras: as questoes e aulas referenciam constantes SVG_* declaradas
+   antes de QUESTIONS. Para o eval abaixo enxergar essas constantes,
+   coletamos todas as declaracoes "const SVG_... = `...`;" e as
+   disponibilizamos no escopo da avaliacao. */
+function coletarSVG() {
+  const defs = {};
+  const re = /const\s+(SVG_[A-Z0-9_]+)\s*=\s*`([\s\S]*?)`\s*;/g;
+  let m;
+  while ((m = re.exec(src)) !== null) defs[m[1]] = m[2];
+  return defs;
+}
+const SVGDEFS = coletarSVG();
+
 function carregar(nome) {
   const bruto = extrairLiteral(nome);
   if (!bruto) return null;
-  try { return eval('(' + bruto + ')'); }
+  try {
+    // injeta as constantes SVG_* como variaveis locais do eval
+    const nomesSVG = Object.keys(SVGDEFS);
+    const valsSVG = nomesSVG.map(k => SVGDEFS[k]);
+    const fn = new Function(...nomesSVG, 'return (' + bruto + ');');
+    return fn(...valsSVG);
+  }
   catch (e) { console.error('ERRO: o array ' + nome + ' nao e JavaScript valido: ' + e.message); return null; }
 }
 

@@ -169,6 +169,115 @@
   .formula .lbl{display:block;font-family:inherit;font-size:11.5px;letter-spacing:.08em;
     text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 
+  /* ---------- figura (diagrama SVG da questao/aula) ---------- */
+  .figura{
+    margin:16px 0 4px;padding:14px 12px 10px;
+    background:#fbfcff;border:1px solid var(--line);border-radius:12px;
+    text-align:center;
+  }
+  .figura svg{max-width:100%;height:auto;display:block;margin:0 auto}
+  .figura .cap{
+    display:block;margin-top:9px;font-size:12.5px;line-height:1.5;
+    color:var(--muted);text-align:center;
+  }
+  .lesson-body .figura{margin:0 0 16px}
+
+  /* ---------- botao "aprender o assunto" ---------- */
+  .lesson-btn{
+    display:flex;align-items:center;gap:9px;width:100%;
+    margin-top:14px;padding:12px 15px;
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+    color:#fff;border:0;border-radius:11px;cursor:pointer;
+    font-family:inherit;font-size:14.5px;font-weight:700;text-align:left;
+    box-shadow:0 2px 10px -3px rgba(79,70,229,.5);
+    transition:transform .08s,box-shadow .15s;
+  }
+  .lesson-btn:hover{box-shadow:0 4px 16px -3px rgba(79,70,229,.6)}
+  .lesson-btn:active{transform:scale(.994)}
+  .lesson-btn .ico{
+    flex:0 0 26px;height:26px;border-radius:8px;
+    background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:14px;
+  }
+  .lesson-btn .lbl{flex:1;min-width:0}
+  .lesson-btn .lbl small{display:block;font-weight:500;opacity:.85;font-size:12px;margin-top:1px}
+  .lesson-btn .arrow{opacity:.7;font-size:16px;flex:0 0 auto}
+
+  /* ---------- modal da aula ---------- */
+  .modal{
+    position:fixed;inset:0;z-index:60;display:none;
+    background:rgba(16,18,28,.55);backdrop-filter:blur(3px);
+    padding:24px 16px;overflow-y:auto;
+  }
+  .modal.open{display:block;animation:fadeIn .16s ease}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .lesson{
+    max-width:720px;margin:0 auto;background:#fff;border-radius:16px;
+    box-shadow:0 24px 60px -20px rgba(0,0,0,.45);overflow:hidden;
+    animation:up .22s cubic-bezier(.2,.8,.3,1);
+  }
+  @keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .lesson-head{
+    padding:20px 22px 16px;border-bottom:1px solid var(--line);
+    background:linear-gradient(135deg,#f5f4ff,#faf9ff);
+    display:flex;align-items:flex-start;gap:12px;
+  }
+  .lesson-head .eyebrow{
+    font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent);font-weight:800;margin:0 0 5px;
+  }
+  .lesson-head h2{
+    margin:0;font-size:19px;line-height:1.25;letter-spacing:-.01em;flex:1;
+  }
+  .lesson-close{
+    flex:0 0 32px;height:32px;border-radius:9px;border:1px solid #ddd9f5;
+    background:#fff;color:#5b5871;font-size:17px;cursor:pointer;line-height:1;
+    display:grid;place-items:center;font-family:inherit;
+  }
+  .lesson-close:hover{border-color:var(--accent);color:var(--accent)}
+  .lesson-body{padding:20px 22px 24px}
+  .lesson-resumo{
+    font-size:15px;line-height:1.6;color:#33384a;
+    background:#f7f8fc;border-left:3px solid var(--accent);
+    padding:12px 15px;border-radius:0 9px 9px 0;margin:0 0 20px;
+  }
+  .lesson-body h3{
+    font-size:14px;letter-spacing:.02em;text-transform:uppercase;
+    color:var(--accent);margin:24px 0 8px;font-weight:800;
+  }
+  .lesson-body h3:first-of-type{margin-top:0}
+  .lesson-body p{font-size:15px;line-height:1.65;color:#2f3444;margin:0 0 12px}
+  .lesson-body ul{margin:0 0 14px;padding-left:20px}
+  .lesson-body li{font-size:15px;line-height:1.6;color:#2f3444;margin-bottom:7px}
+  .lesson-form{
+    font-family:"Cascadia Mono",Consolas,monospace;font-size:16px;font-weight:600;
+    background:#111827;color:#e5e7eb;border-radius:10px;
+    padding:14px 16px;margin:0 0 14px;text-align:center;overflow-x:auto;
+  }
+  .lesson-form .leg{
+    display:block;font-family:inherit;font-size:11.5px;font-weight:400;
+    color:#9ca3af;margin-top:7px;letter-spacing:.02em;
+  }
+  .lesson-hi{
+    background:#eef0ff;border:1px solid #d7d9f7;border-radius:10px;
+    padding:12px 14px;margin:0 0 14px;font-size:14.5px;line-height:1.55;
+    color:#3b3f57;font-weight:500;
+  }
+  .lesson-hi::before{content:"💡 ";font-weight:400}
+  .lesson-erros{
+    margin:6px 0 0;padding:14px 16px;background:var(--no-soft);
+    border:1px solid var(--no-line);border-radius:10px;
+  }
+  .lesson-erros .tit{
+    font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--no);font-weight:800;margin:0 0 8px;
+  }
+  .lesson-erros ul{margin:0;padding-left:18px}
+  .lesson-erros li{font-size:14px;color:#7f1d1d;margin-bottom:5px;line-height:1.5}
+  .lesson-foot{
+    display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;
+    padding:16px 22px;border-top:1px solid var(--line);background:#fbfbfe;
+  }
+
   .opts{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:10px}
   .opt{
     display:flex;gap:12px;align-items:flex-start;
@@ -289,10 +398,192 @@
 
   <main id="stage"></main>
 
+<div class="modal" id="modal">
+  <div class="lesson" id="lesson"></div>
+</div>
+
   <footer>Simulado gerado a partir das suas duas folhas de exercícios · funciona offline</footer>
 </div>
 
 <script>
+/* ============================================================
+   FIGURAS — diagramas de estrutura quimica em SVG embutido.
+   Funcionam offline. Cores presas ao tema para ler em qualquer fundo.
+   Convencao: linha = ligacao; vertice/ponta = carbono; H implicito.
+   Eixos/ligacoes #4b5060, destaque #4f46e5, rotulo secundario #6b7280.
+   ============================================================ */
+
+// 2,2,4-trimetilpentano (gasolina) — Q6 e Q7
+const SVG_TRIMETILPENTANO = `
+<div class="figura">
+<svg viewBox="0 0 340 170" role="img" aria-label="Estrutura do 2,2,4-trimetilpentano: cadeia de 5 carbonos com duas metilas no carbono 2 e uma metila no carbono 4">
+  <line x1="40" y1="110" x2="90" y2="80" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="90" y1="80" x2="140" y2="110" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="140" y1="110" x2="190" y2="80" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="190" y1="80" x2="240" y2="110" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="90" y1="80" x2="70" y2="38" stroke="#4f46e5" stroke-width="2.5"/>
+  <line x1="90" y1="80" x2="118" y2="46" stroke="#4f46e5" stroke-width="2.5"/>
+  <line x1="190" y1="80" x2="190" y2="34" stroke="#4f46e5" stroke-width="2.5"/>
+  <text x="26" y="118" fill="#6b7280" font-size="13">1</text>
+  <text x="84" y="98" fill="#4338ca" font-size="13" font-weight="700">2</text>
+  <text x="138" y="128" fill="#6b7280" font-size="13">3</text>
+  <text x="196" y="96" fill="#4338ca" font-size="13" font-weight="700">4</text>
+  <text x="246" y="118" fill="#6b7280" font-size="13">5</text>
+  <text x="54" y="32" fill="#4f46e5" font-size="12">CH&#8323;</text>
+  <text x="122" y="44" fill="#4f46e5" font-size="12">CH&#8323;</text>
+  <text x="176" y="28" fill="#4f46e5" font-size="12">CH&#8323;</text>
+</svg>
+<span class="cap">Cadeia de 5 carbonos (1&#8211;5). O <b>C2</b> leva duas metilas (quaternario) e o <b>C4</b> leva uma metila (terciario); C3 e o CH&#8322; do meio (secundario); C1, C5 e as 3 metilas sao primarios.</span>
+</div>`;
+
+// metilpropano / isobutano — Q8
+const SVG_ISOBUTANO = `
+<div class="figura">
+<svg viewBox="0 0 240 160" role="img" aria-label="Estrutura do metilpropano (isobutano): carbono central ligado a tres metilas, cadeia ramificada">
+  <line x1="60" y1="110" x2="120" y2="80" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="120" y1="80" x2="180" y2="110" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="120" y1="80" x2="120" y2="34" stroke="#4f46e5" stroke-width="2.5"/>
+  <circle cx="120" cy="80" r="4" fill="#4338ca"/>
+  <text x="40" y="128" fill="#6b7280" font-size="13">CH&#8323;</text>
+  <text x="170" y="128" fill="#6b7280" font-size="13">CH&#8323;</text>
+  <text x="104" y="28" fill="#4f46e5" font-size="13">CH&#8323;</text>
+  <text x="128" y="86" fill="#4338ca" font-size="12" font-weight="700">CH</text>
+</svg>
+<span class="cap">O carbono central (CH) liga-se a <b>tres</b> outros carbonos: e terciario e gera a ramificacao. Cadeia ramificada, saturada e homogenea.</span>
+</div>`;
+
+// citral — Q10
+const SVG_CITRAL = `
+<div class="figura">
+<svg viewBox="0 0 400 150" role="img" aria-label="Estrutura do citral: cadeia aberta com duas ligacoes duplas, duas metilas e um aldeido na ponta">
+  <line x1="30" y1="95" x2="70" y2="70" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="70" y1="70" x2="110" y2="95" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="67" y1="74" x2="107" y2="99" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="110" y1="95" x2="150" y2="70" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="150" y1="70" x2="190" y2="95" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="190" y1="95" x2="230" y2="70" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="230" y1="70" x2="270" y2="95" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="227" y1="74" x2="267" y2="99" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="270" y1="95" x2="310" y2="70" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="70" y1="70" x2="70" y2="34" stroke="#4f46e5" stroke-width="2.5"/>
+  <line x1="230" y1="70" x2="230" y2="34" stroke="#4f46e5" stroke-width="2.5"/>
+  <line x1="310" y1="70" x2="345" y2="92" stroke="#b91c1c" stroke-width="2.5"/>
+  <line x1="314" y1="66" x2="349" y2="88" stroke="#b91c1c" stroke-width="2.5"/>
+  <text x="58" y="30" fill="#4f46e5" font-size="12">CH&#8323;</text>
+  <text x="218" y="30" fill="#4f46e5" font-size="12">CH&#8323;</text>
+  <text x="348" y="90" fill="#b91c1c" font-size="13" font-weight="700">O</text>
+  <text x="300" y="64" fill="#6b7280" font-size="12">CHO</text>
+</svg>
+<span class="cap">Duas duplas C=C (insaturada) e duas metilas (ramificada). O oxigenio esta no aldeido da <b>ponta</b> (C=O terminal), fora da cadeia &#8594; cadeia <b>homogenea</b>.</span>
+</div>`;
+
+// benzeno — Q12
+const SVG_BENZENO = `
+<div class="figura">
+<svg viewBox="0 0 200 190" role="img" aria-label="Estrutura do benzeno: anel de seis carbonos com tres ligacoes duplas alternadas">
+  <polygon points="100,30 152,60 152,120 100,150 48,120 48,60" fill="none" stroke="#4b5060" stroke-width="2.5"/>
+  <circle cx="100" cy="90" r="30" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-dasharray="5 4"/>
+  <text x="95" y="178" fill="#6b7280" font-size="13">C&#8326;H&#8326;</text>
+</svg>
+<span class="cap">Anel fechado de 6 carbonos com 3 duplas alternadas (conjugadas, aqui representadas pelo circulo): cadeia <b>fechada, insaturada e aromatica</b>.</span>
+</div>`;
+
+// ciclopentano — Q11
+const SVG_CICLOPENTANO = `
+<div class="figura">
+<svg viewBox="0 0 190 180" role="img" aria-label="Estrutura do ciclopentano: anel de cinco carbonos, todas ligacoes simples">
+  <polygon points="95,32 150,72 129,136 61,136 40,72" fill="none" stroke="#4b5060" stroke-width="2.5"/>
+  <text x="80" y="168" fill="#6b7280" font-size="13">C&#8325;H&#8321;&#8320;</text>
+</svg>
+<span class="cap">Anel de 5 carbonos, so ligacoes simples: cadeia <b>fechada (ciclica), saturada e homogenea</b>. Nao e aromatica (aromatico precisa de duplas alternadas).</span>
+</div>`;
+
+// isopropila vs n-propila — Q23
+const SVG_ISOPROPILA = `
+<div class="figura">
+<svg viewBox="0 0 340 150" role="img" aria-label="Comparacao entre n-propila e isopropila: posicao da valencia livre">
+  <text x="20" y="40" fill="#6b7280" font-size="12">n-propila</text>
+  <line x1="30" y1="90" x2="70" y2="65" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="70" y1="65" x2="110" y2="90" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="110" y1="90" x2="150" y2="65" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="30" y1="90" x2="14" y2="104" stroke="#4f46e5" stroke-width="2.5"/>
+  <circle cx="14" cy="104" r="3.5" fill="#4f46e5"/>
+  <text x="2" y="124" fill="#4f46e5" font-size="11">valencia livre</text>
+  <text x="210" y="40" fill="#4338ca" font-size="12" font-weight="700">isopropila</text>
+  <line x1="210" y1="90" x2="250" y2="65" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="250" y1="65" x2="290" y2="90" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="250" y1="65" x2="250" y2="28" stroke="#4f46e5" stroke-width="2.5"/>
+  <circle cx="250" cy="28" r="3.5" fill="#4f46e5"/>
+  <text x="258" y="24" fill="#4f46e5" font-size="11">valencia livre</text>
+</svg>
+<span class="cap">Mesmos 3 carbonos, posicoes diferentes da <b>valencia livre</b>: na n-propila fica na ponta; na <b>isopropila</b> fica no carbono do meio &#8594; &#8211;CH(CH&#8323;)&#8322;.</span>
+</div>`;
+
+// terc-butila e os 4 isomeros do butila — Q24/Q25
+const SVG_RADICAIS_BUTILA = `
+<div class="figura">
+<svg viewBox="0 0 340 160" role="img" aria-label="Estrutura do radical terc-butila: carbono central ligado a tres metilas com uma valencia livre">
+  <line x1="130" y1="95" x2="170" y2="70" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="210" y1="95" x2="170" y2="70" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="170" y1="70" x2="170" y2="34" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="170" y1="70" x2="170" y2="118" stroke="#4f46e5" stroke-width="2.5"/>
+  <circle cx="170" cy="118" r="3.5" fill="#4f46e5"/>
+  <circle cx="170" cy="70" r="4" fill="#4338ca"/>
+  <text x="108" y="113" fill="#6b7280" font-size="12">CH&#8323;</text>
+  <text x="214" y="113" fill="#6b7280" font-size="12">CH&#8323;</text>
+  <text x="154" y="28" fill="#6b7280" font-size="12">CH&#8323;</text>
+  <text x="178" y="130" fill="#4f46e5" font-size="11">valencia livre</text>
+</svg>
+<span class="cap">Terc-butila: carbono central ligado a <b>tres metilas</b> (carbono terciario), com a valencia livre nele &#8594; &#8211;C(CH&#8323;)&#8323;. O prefixo 'terc' marca a valencia no carbono terciario.</span>
+</div>`;
+
+// 3-etil-2,4-dimetilpentano — Q26 (e questao dos radicais na estrutura, Q25)
+const SVG_ETILDIMETILPENTANO = `
+<div class="figura">
+<svg viewBox="0 0 340 180" role="img" aria-label="Estrutura do 3-etil-2,4-dimetilpentano: cadeia de 5 carbonos com metilas em C2 e C4 e uma etila em C3">
+  <line x1="40" y1="120" x2="90" y2="90" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="90" y1="90" x2="140" y2="120" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="140" y1="120" x2="190" y2="90" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="190" y1="90" x2="240" y2="120" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="90" y1="90" x2="90" y2="52" stroke="#4f46e5" stroke-width="2.5"/>
+  <line x1="190" y1="90" x2="190" y2="52" stroke="#4f46e5" stroke-width="2.5"/>
+  <line x1="140" y1="120" x2="140" y2="156" stroke="#15803d" stroke-width="2.5"/>
+  <line x1="140" y1="156" x2="180" y2="170" stroke="#15803d" stroke-width="2.5"/>
+  <text x="26" y="128" fill="#6b7280" font-size="13">1</text>
+  <text x="84" y="108" fill="#4338ca" font-size="13" font-weight="700">2</text>
+  <text x="130" y="140" fill="#4338ca" font-size="13" font-weight="700">3</text>
+  <text x="196" y="108" fill="#4338ca" font-size="13" font-weight="700">4</text>
+  <text x="246" y="128" fill="#6b7280" font-size="13">5</text>
+  <text x="74" y="46" fill="#4f46e5" font-size="12">CH&#8323;</text>
+  <text x="174" y="46" fill="#4f46e5" font-size="12">CH&#8323;</text>
+  <text x="182" y="172" fill="#15803d" font-size="12">etila</text>
+</svg>
+<span class="cap">Cadeia principal de 5 carbonos. Metilas (azul) em C2 e C4, etila (verde) em C3. <b>C2, C3 e C4</b> ligam-se a tres carbonos cada &#8594; 3 carbonos terciarios.</span>
+</div>`;
+
+// testosterona — Q15/Q16 (nucleo esteroidal: 3 aneis de 6 + 1 de 5)
+const SVG_TESTOSTERONA = `
+<div class="figura">
+<svg viewBox="0 0 360 220" role="img" aria-label="Nucleo esteroidal da testosterona: tres aneis de seis carbonos e um de cinco condensados, com C=O no C3 e OH no C17">
+  <polygon points="40,120 40,170 84,195 128,170 128,120 84,95" fill="none" stroke="#4b5060" stroke-width="2.5"/>
+  <polygon points="128,120 128,170 172,195 216,170 216,120 172,95" fill="none" stroke="#4b5060" stroke-width="2.5"/>
+  <polygon points="216,120 216,170 260,195 304,170 304,120 260,95" fill="none" stroke="#4b5060" stroke-width="2.5"/>
+  <polygon points="304,120 304,170 348,150 338,108" fill="none" stroke="#4b5060" stroke-width="2.5"/>
+  <line x1="40" y1="120" x2="18" y2="108" stroke="#b91c1c" stroke-width="2.5"/>
+  <line x1="43" y1="116" x2="21" y2="104" stroke="#b91c1c" stroke-width="2.5"/>
+  <text x="2" y="104" fill="#b91c1c" font-size="13" font-weight="700">O</text>
+  <text x="10" y="134" fill="#6b7280" font-size="11">C3</text>
+  <line x1="348" y1="150" x2="372" y2="150" stroke="#4f46e5" stroke-width="2.5" opacity="0"/>
+  <text x="330" y="100" fill="#4f46e5" font-size="12" font-weight="700">OH</text>
+  <text x="300" y="104" fill="#6b7280" font-size="11">C17</text>
+  <line x1="128" y1="120" x2="128" y2="88" stroke="#4f46e5" stroke-width="2.5"/>
+  <line x1="216" y1="120" x2="216" y2="88" stroke="#4f46e5" stroke-width="2.5"/>
+  <text x="122" y="84" fill="#4f46e5" font-size="11">CH&#8323;</text>
+  <text x="210" y="84" fill="#4f46e5" font-size="11">CH&#8323;</text>
+</svg>
+<span class="cap">Nucleo esteroidal: 3 aneis de 6 + 1 de 5, condensados. C=O no C3, OH no C17 e metilas (azul) em C10 e C13. As juncoes dos aneis dao 4 carbonos terciarios + 2 quaternarios (os das metilas). Formula C&#8321;&#8329;H&#8322;&#8328;O&#8322;.</span>
+</div>`;
+
 const QUESTIONS = [
   {
     tema: "Postulados de Kekulé e Couper",
@@ -382,6 +673,7 @@ const QUESTIONS = [
   {
     tema: "Contagem de carbonos",
     enunciado: "O 2,2,4-trimetilpentano é um dos principais componentes da gasolina comercial. Quantos carbonos <strong>primários</strong> existem nessa molécula?",
+    figura: SVG_TRIMETILPENTANO,
     estrutura:"CH₃–C(CH₃)₂–CH₂–CH(CH₃)–CH₃",
     conceito: "São primários os carbonos ligados a <b>um único</b> carbono: as duas extremidades da cadeia e os carbonos das ramificações (metilas).",
     alternativas: [
@@ -400,6 +692,7 @@ const QUESTIONS = [
   {
     tema: "Contagem de carbonos",
     enunciado: "Ainda no 2,2,4-trimetilpentano, os números de carbonos <strong>secundários, terciários e quaternários</strong> são, respectivamente:",
+    figura: SVG_TRIMETILPENTANO,
     estrutura:"CH₃–C(CH₃)₂–CH₂–CH(CH₃)–CH₃",
     conceito: "Percorra a cadeia contando vizinhos carbono: CH₂ no meio = secundário; carbono com três vizinhos = terciário; com quatro = quaternário.",
     alternativas: [
@@ -418,6 +711,7 @@ const QUESTIONS = [
   {
     tema: "Classificação de cadeias",
     enunciado: "A cadeia do metilpropano (isobutano) é classificada como:",
+    figura: SVG_ISOBUTANO,
     estrutura:"CH₃–CH(CH₃)–CH₃",
     conceito: "Três critérios independentes: <b>normal/ramificada</b>, <b>saturada/insaturada</b> e <b>homogênea/heterogênea</b>. Aqui: só ligações simples, só carbono na cadeia e há ramificação.",
     alternativas: [
@@ -453,6 +747,7 @@ const QUESTIONS = [
   {
     tema: "Citral (UFRGS)",
     enunciado: "O citral tem forte sabor de limão e é empregado em alimentos para dar aroma cítrico. Sua cadeia carbônica é classificada como:",
+    figura: SVG_CITRAL,
     estrutura:"CH₃–C(CH₃)=CH–CH₂–CH₂–C(CH₃)=CH–CHO",
     conceito: "Atenção: o oxigênio do aldeído está <b>fora</b> da cadeia (ligado a apenas um carbono). Por isso a cadeia continua homogênea. As duas duplas dão a insaturação e as duas metilas dão a ramificação.",
     alternativas: [
@@ -471,6 +766,7 @@ const QUESTIONS = [
   {
     tema: "Classificação de cadeias",
     enunciado: "O ciclopentano, hidrocarboneto de fórmula molecular C₅H₁₀, possui cadeia:",
+    figura: SVG_CICLOPENTANO,
     conceito: "Anel de cinco carbonos, todas as ligações simples: fechada (cíclica), saturada e homogênea. Não é aromática — aromático exige anel com duplas alternadas (benzeno).",
     alternativas: [
       {t:"Fechada (cíclica), saturada e homogênea.", ok:true,
@@ -488,6 +784,7 @@ const QUESTIONS = [
   {
     tema: "Classificação de cadeias",
     enunciado: "A cadeia carbônica do benzeno é classificada como:",
+    figura: SVG_BENZENO,
     estrutura:"Anel de 6 carbonos com 3 duplas alternadas  →  C₆H₆",
     conceito: "Aromática = anel com duplas conjugadas (alternadas). Alicíclica = anel sem aromaticidade. Fechada + insaturada + aromática é a tríade do benzeno.",
     alternativas: [
@@ -540,6 +837,7 @@ const QUESTIONS = [
   {
     tema: "Testosterona (UERJ)",
     enunciado: "A testosterona, um dos principais hormônios sexuais masculinos, apresenta a fórmula estrutural plana com quatro anéis condensados. O número de átomos de carbono classificados como <strong>terciários</strong> na molécula é:",
+    figura: SVG_TESTOSTERONA,
     estrutura:"Núcleo esteroidal: 3 anéis de 6 + 1 anel de 5 condensados\nC=O no C3 · OH no C17 · metilas em C10 e C13",
     conceito: "Percorra os carbonos das junções de anéis. Terciário = três ligações a outros carbonos; quaternário = quatro. Na testosterona, quatro carbonos de junção são terciários e dois são quaternários (os que sustentam as metilas C18 e C19).",
     alternativas: [
@@ -558,6 +856,7 @@ const QUESTIONS = [
   {
     tema: "Testosterona (UERJ)",
     enunciado: "A fórmula molecular da testosterona é:",
+    figura: SVG_TESTOSTERONA,
     conceito: "Conte os átomos: 19 carbonos, 2 oxigênios (C=O e OH). Pelos hidrogênios, use a insaturação: 4 anéis + 1 C=C + 1 C=O = 6 insaturações.",
     alternativas: [
       {t:"C₁₉H₂₈O₂", ok:true,
@@ -677,6 +976,7 @@ const QUESTIONS = [
   {
     tema: "Radicais",
     enunciado: "O grupo <strong>isopropila</strong> (propan-2-ila) é representado por:",
+    figura: SVG_ISOPROPILA,
     estrutura:"n-propila:      –CH₂—CH₂—CH₃   (valência livre na ponta)\nisopropila:     –CH(CH₃)₂     (valência livre no carbono do meio)",
     conceito: "A valência livre (o traço que liga à cadeia principal) é o que diferencia os isômeros de posição dos radicais. No propil ela fica na extremidade; no isopropil, no carbono central.",
     alternativas: [
@@ -695,6 +995,7 @@ const QUESTIONS = [
   {
     tema: "Radicais",
     enunciado: "O radical <strong>terc-butila</strong> corresponde a:",
+    figura: SVG_RADICAIS_BUTILA,
     conceito: "O prefixo indica a posição da valência livre: n- = ponta, sec-/iso- = carbono secundário, terc- = carbono terciário (a valência livre fica num carbono ligado a três outros).",
     alternativas: [
       {t:"–C(CH₃)₃", ok:true,
@@ -712,6 +1013,7 @@ const QUESTIONS = [
   {
     tema: "Radicais na estrutura",
     enunciado: "Na estrutura abaixo, quais radicais estão ligados à cadeia principal?",
+    figura: SVG_ETILDIMETILPENTANO,
     estrutura:"CH₃–CH(CH₃)–CH(CH₂CH₃)–CH(CH₃)–CH₃",
     conceito: "A pergunta da sua lista (questão 8) não pede o nome do composto: pede <b>quais radicais</b> aparecem como ramificações. Aqui há metilas (–CH₃) e um grupo etila (–CH₂CH₃).",
     alternativas: [
@@ -730,6 +1032,7 @@ const QUESTIONS = [
   {
     tema: "Aplicação: contagem",
     enunciado: "No 3-etil-2,4-dimetilpentano, o número de carbonos <strong>terciários</strong> é:",
+    figura: SVG_ETILDIMETILPENTANO,
     estrutura:"CH₃–CH(CH₃)–CH(CH₂CH₃)–CH(CH₃)–CH₃",
     conceito: "Para contar terciários em cadeia ramificada, olhe cada carbono da cadeia principal e conte vizinhos carbono (incluindo os das ramificações).",
     alternativas: [
@@ -746,6 +1049,413 @@ const QUESTIONS = [
     ]
   }
 ];
+
+
+/* ============================================================
+   AULAS — uma pagina explicativa por assunto de Quimica Organica.
+   Cada questao aponta para uma aula; o aluno abre quando erra
+   (ou quando quer entender melhor) e volta na mesma posicao.
+   ============================================================ */
+const LICOES = {
+
+  "kekule": {
+    titulo: "Postulados de Kekulé e Couper",
+    resumo: "O carbono é tetravalente, suas quatro valências são iguais entre si e ele pode ligar-se a outros carbonos formando cadeias. Esses três pontos sustentam toda a Química Orgânica.",
+    blocos: [
+      {t:"h", v:"Os três pilares"},
+      {t:"lista", v:[
+        "<b>Tetravalência</b> — o carbono faz sempre quatro ligações.",
+        "<b>Equivalência das valências</b> — as quatro ligações são iguais, não há uma 'mais forte'.",
+        "<b>Encadeamento</b> — o carbono liga-se a outros carbonos, formando cadeias abertas, fechadas, ramificadas e insaturadas."
+      ]},
+      {t:"p", v:"Foi essa combinação, proposta por volta de 1858, que explicou por que um único elemento gera milhões de compostos diferentes."},
+      {t:"destaque", v:"Decore a tríade: tetravalente, valências iguais, forma cadeias. É o coração dos postulados."},
+      {t:"h", v:"O que NÃO é postulado de Kekulé/Couper"},
+      {t:"lista", v:[
+        "'Química Orgânica estuda compostos dos seres vivos' — definição vitalista, já superada.",
+        "'Precisa de força vital' — vitalismo, derrubado por Wöhler em 1828.",
+        "'Nada se cria, nada se perde' — é Lavoisier, sobre conservação de massa."
+      ]}
+    ],
+    erros: [
+      "Confundir postulado de estrutura (Kekulé) com a definição histórica de orgânico (vitalismo).",
+      "Atribuir a síntese da ureia (Wöhler, 1828) aos postulados de 1858 — são eventos separados."
+    ]
+  },
+
+  "wohler": {
+    titulo: "O fim do vitalismo — Wöhler e a ureia",
+    resumo: "Em 1828 Wöhler obteve ureia (orgânica) aquecendo cianato de amônio (inorgânico). Caiu a ideia de que só seres vivos produziam compostos orgânicos.",
+    blocos: [
+      {t:"h", v:"O que era o vitalismo"},
+      {t:"p", v:"Antes de 1828 acreditava-se que compostos orgânicos só podiam ser produzidos por organismos vivos, graças a uma 'força vital'. Orgânico significava, literalmente, 'de origem viva'."},
+      {t:"h", v:"O experimento"},
+      {t:"formula", v:"cianato de amônio  →(calor)→  ureia", leg:"inorgânico vira orgânico, sem nenhum ser vivo"},
+      {t:"p", v:"Wöhler aqueceu uma substância inorgânica e obteve ureia, um composto orgânico encontrado na urina. Nenhum organismo participou."},
+      {t:"destaque", v:"A partir daí, 'orgânico' passou a significar 'composto do carbono', não 'composto de origem viva'."},
+      {t:"h", v:"Por que importa"},
+      {t:"p", v:"Abriu caminho para a síntese de plásticos, fármacos, corantes e fibras em laboratório — tudo composto de carbono feito sem 'força vital'."}
+    ],
+    erros: [
+      "Dizer que a ureia não tem carbono — ela é CO(NH₂)₂, é orgânica justamente por ter carbono.",
+      "Achar que Wöhler estabeleceu a tetravalência — isso foi Kekulé/Couper, 30 anos depois."
+    ]
+  },
+
+  "excecoes": {
+    titulo: "Compostos de carbono que NÃO são orgânicos",
+    resumo: "Nem tudo que tem carbono é orgânico. Um grupo pequeno de substâncias com carbono é estudado como inorgânico, por convenção histórica.",
+    blocos: [
+      {t:"h", v:"A lista das exceções"},
+      {t:"lista", v:[
+        "Óxidos de carbono: <b>CO</b> e <b>CO₂</b>.",
+        "Ácido carbônico <b>H₂CO₃</b>, carbonatos e bicarbonatos.",
+        "Carbonetos (como o carbureto, CaC₂).",
+        "Formas do carbono puro: grafite e diamante."
+      ]},
+      {t:"destaque", v:"CO₂ é o exemplo mais cobrado: tem carbono, mas é inorgânico."},
+      {t:"h", v:"Como não cair na pegadinha"},
+      {t:"p", v:"Metano (CH₄), etanol (C₂H₅OH), glicose (C₆H₁₂O₆) e ácido acético (CH₃COOH) são todos orgânicos. Repare que o ácido <b>carbônico</b> (H₂CO₃) é inorgânico, mas o ácido <b>acético</b> é orgânico — não confunda pelo nome."}
+    ],
+    erros: [
+      "Marcar o metano ou o etanol como inorgânicos — são orgânicos típicos.",
+      "Esquecer que CO₂, carbonatos e grafite, apesar do carbono, entram na Química Inorgânica."
+    ]
+  },
+
+  "variedade": {
+    titulo: "Por que o carbono forma tantos compostos",
+    resumo: "Duas propriedades explicam os milhões de compostos orgânicos: a tetravalência e a capacidade de formar ligações carbono–carbono.",
+    blocos: [
+      {t:"h", v:"Tetravalência"},
+      {t:"p", v:"Com quatro ligações, cada carbono já admite muitas combinações com H, O, N e outros carbonos."},
+      {t:"h", v:"Encadeamento (ligações C–C)"},
+      {t:"p", v:"O carbono liga-se a outros carbonos em sequência, formando cadeias de qualquer tamanho — abertas, fechadas, ramificadas, com duplas e triplas. É isso que multiplica as possibilidades."},
+      {t:"formula", v:"C–C–C–C–C...", leg:"cadeias longas, só possíveis porque o carbono se liga a si mesmo"},
+      {t:"destaque", v:"Tetravalência + encadeamento = variedade praticamente infinita."},
+      {t:"h", v:"O que NÃO explica a variedade"},
+      {t:"lista", v:[
+        "Ser metal — o carbono é ametal.",
+        "Abundância na crosta — os mais abundantes são oxigênio e silício.",
+        "Ligações iônicas — compostos orgânicos são covalentes."
+      ]}
+    ],
+    erros: [
+      "Dizer que o carbono tem 2 elétrons de valência — tem 4 (2s² 2p²).",
+      "Atribuir a variedade à abundância do carbono, e não à estrutura (4 ligações + cadeias)."
+    ]
+  },
+
+  "classificacao-carbono": {
+    titulo: "Classificação do carbono: primário a quaternário",
+    resumo: "Conte quantos OUTROS carbonos estão ligados ao carbono analisado. Hidrogênios e heteroátomos não entram na conta.",
+    blocos: [
+      {t:"h", v:"A regra"},
+      {t:"lista", v:[
+        "<b>Primário</b> — ligado a 1 outro carbono.",
+        "<b>Secundário</b> — ligado a 2 outros carbonos.",
+        "<b>Terciário</b> — ligado a 3 outros carbonos.",
+        "<b>Quaternário</b> — ligado a 4 outros carbonos."
+      ]},
+      {t:"destaque", v:"Só contam os vizinhos CARBONO. Hidrogênio e oxigênio não classificam o carbono."},
+      {t:"figura", v:SVG_ISOBUTANO},
+      {t:"h", v:"Exemplos rápidos"},
+      {t:"lista", v:[
+        "CH₃ da ponta → primário (um vizinho carbono).",
+        "CH₂ no meio da cadeia → secundário.",
+        "Carbono central do isobutano → terciário (três CH₃ em volta).",
+        "C2 do 2,2,4-trimetilpentano → quaternário (quatro vizinhos carbono)."
+      ]}
+    ],
+    erros: [
+      "Contar hidrogênios: um CH₃ parece 'ligado a 3 H', mas é primário (um vizinho carbono).",
+      "Esquecer de contar os carbonos das ramificações ao classificar um carbono da cadeia principal."
+    ]
+  },
+
+  "contagem-carbonos": {
+    titulo: "Contando primários, secundários, terciários e quaternários",
+    resumo: "Percorra a molécula carbono por carbono, contando sempre os vizinhos CARBONO. As ramificações contam como vizinhos.",
+    blocos: [
+      {t:"h", v:"Passo a passo no 2,2,4-trimetilpentano"},
+      {t:"figura", v:SVG_TRIMETILPENTANO},
+      {t:"lista", v:[
+        "<b>C1 e C5</b> (pontas) e as <b>3 metilas</b> → cada um tem 1 vizinho carbono → 5 <b>primários</b>.",
+        "<b>C3</b> (o CH₂ do meio) → 2 vizinhos → 1 <b>secundário</b>.",
+        "<b>C4</b> → ligado a C3, C5 e uma metila → 3 vizinhos → 1 <b>terciário</b>.",
+        "<b>C2</b> → ligado a C1, C3 e duas metilas → 4 vizinhos → 1 <b>quaternário</b>."
+      ]},
+      {t:"formula", v:"5 primários + 1 secundário + 1 terciário + 1 quaternário = 8 carbonos", leg:"a soma tem que bater com o total de carbonos"},
+      {t:"destaque", v:"Confira sempre: a soma das quatro classes é igual ao número total de carbonos da molécula."},
+      {t:"h", v:"No 3-etil-2,4-dimetilpentano"},
+      {t:"figura", v:SVG_ETILDIMETILPENTANO},
+      {t:"p", v:"C2, C3 e C4 têm três vizinhos carbono cada → <b>3 terciários</b>. Não há carbono quaternário (nenhum tem quatro vizinhos)."}
+    ],
+    erros: [
+      "Esquecer de somar e conferir com o total de carbonos — o jeito mais rápido de achar um erro de contagem.",
+      "Não contar o carbono da etila como vizinho do C3 na hora de classificá-lo."
+    ]
+  },
+
+  "cadeia-ramificada": {
+    titulo: "Cadeia normal × ramificada",
+    resumo: "Normal (ou reta) tem só duas extremidades. Ramificada tem mais de duas pontas — o que exige um carbono terciário ou quaternário.",
+    blocos: [
+      {t:"h", v:"Como reconhecer"},
+      {t:"p", v:"Siga a cadeia principal. Se em algum carbono o caminho se divide (ele tem 3 ou 4 vizinhos carbono), existe ramificação."},
+      {t:"figura", v:SVG_ISOBUTANO},
+      {t:"destaque", v:"Ramificação = carbono terciário ou quaternário = mais de duas extremidades de cadeia."},
+      {t:"h", v:"O que NÃO é ramificação"},
+      {t:"lista", v:[
+        "Ligação dupla ou tripla → isso é <b>insaturação</b>, critério separado.",
+        "Heteroátomo entre carbonos → isso é cadeia <b>heterogênea</b>.",
+        "Tamanho da cadeia → o hexano tem 6 carbonos e é normal."
+      ]}
+    ],
+    erros: [
+      "Chamar de ramificada uma cadeia que só tem dupla ligação — insaturação não é ramificação.",
+      "Achar que cadeia grande é automaticamente ramificada."
+    ]
+  },
+
+  "cadeia-insaturada": {
+    titulo: "Cadeia saturada × insaturada",
+    resumo: "Saturada = só ligações simples entre carbonos. Insaturada = há pelo menos uma ligação dupla ou tripla.",
+    blocos: [
+      {t:"h", v:"A distinção"},
+      {t:"lista", v:[
+        "<b>Saturada</b> — todas as ligações C–C são simples (alcanos).",
+        "<b>Insaturada</b> — há uma dupla (alceno) ou tripla (alcino) entre carbonos."
+      ]},
+      {t:"formula", v:"H₃C—C≡CH  (propino)", leg:"a tripla torna a cadeia insaturada"},
+      {t:"destaque", v:"Uma só dupla ou tripla já basta para a cadeia ser insaturada."},
+      {t:"h", v:"Cuidado"},
+      {t:"p", v:"Insaturação é independente de ser ramificada ou homogênea. O propino é normal, insaturado e homogêneo ao mesmo tempo — os três critérios são avaliados separadamente."}
+    ],
+    erros: [
+      "Chamar de saturada uma cadeia que tem tripla — tripla é insaturação.",
+      "Misturar insaturação com ramificação: são critérios independentes."
+    ]
+  },
+
+  "cadeia-ciclica": {
+    titulo: "Cadeias abertas e fechadas (cíclicas)",
+    resumo: "Aberta (acíclica) tem extremidades. Fechada (cíclica) forma um anel, sem pontas. Cíclica saturada sem aromaticidade é alicíclica.",
+    blocos: [
+      {t:"h", v:"Aberta × fechada"},
+      {t:"p", v:"Se os carbonos têm início e fim, a cadeia é aberta. Se fecham um anel, é cíclica."},
+      {t:"figura", v:SVG_CICLOPENTANO},
+      {t:"p", v:"O ciclopentano (C₅H₁₀) é um anel de cinco carbonos, todas as ligações simples: fechada, saturada e homogênea. Não é aromático."},
+      {t:"destaque", v:"C₅H₁₀ tem a 'cara' de um alceno, mas aqui a falta de hidrogênios vem do ANEL, não de uma dupla."},
+      {t:"h", v:"Alicíclico × aromático"},
+      {t:"p", v:"Anel sem aromaticidade (ciclopentano, cicloexano) = alicíclico. Anel aromático exige duplas conjugadas, como o benzeno."}
+    ],
+    erros: [
+      "Dizer que ciclopentano é insaturado por causa do C₅H₁₀ — ele é saturado; a fórmula vem do fechamento do anel.",
+      "Confundir alicíclico (anel não aromático) com aromático."
+    ]
+  },
+
+  "cadeia-aromatica": {
+    titulo: "Cadeias cíclicas aromáticas: o benzeno",
+    resumo: "Aromático = anel com duplas conjugadas (alternadas). O benzeno (C₆H₆) é o exemplo clássico: fechado, insaturado e aromático.",
+    blocos: [
+      {t:"h", v:"O que torna um anel aromático"},
+      {t:"p", v:"Um anel de seis carbonos com três duplas alternadas, formando um sistema conjugado estável. Essa conjugação é a aromaticidade."},
+      {t:"figura", v:SVG_BENZENO},
+      {t:"destaque", v:"Fechada + insaturada + aromática = a tríade do benzeno."},
+      {t:"h", v:"Não confundir com alicíclico"},
+      {t:"p", v:"O cicloexano (C₆H₁₂) também é um anel de seis carbonos, mas sem duplas — é alicíclico, não aromático. O que distingue é a conjugação das duplas."}
+    ],
+    erros: [
+      "Chamar o benzeno de saturado — ele tem três duplas no anel.",
+      "Classificar o benzeno como alicíclico: a conjugação das duplas faz dele aromático."
+    ]
+  },
+
+  "cadeia-heterogenea": {
+    titulo: "Cadeia homogênea × heterogênea",
+    resumo: "Heterogênea só quando o heteroátomo (O, N, S) está ENTRE dois carbonos. Se o heteroátomo está na ponta, a cadeia é homogênea.",
+    blocos: [
+      {t:"h", v:"A regra decisiva"},
+      {t:"p", v:"Olhe onde está o heteroátomo. Se ele interrompe a sequência de carbonos (—C—O—C—), a cadeia é <b>heterogênea</b>. Se está na extremidade, ligado a um só carbono (álcool, aldeído, ácido), a cadeia é <b>homogênea</b>."},
+      {t:"formula", v:"H₃C—CH₂—O—CH₂—CH₃  (éter → heterogênea)\nH₃C—CH₂—OH          (álcool → homogênea)", leg:"o que decide é a POSIÇÃO do oxigênio"},
+      {t:"destaque", v:"Heteroátomo no meio = heterogênea. Heteroátomo na ponta = homogênea."},
+      {t:"h", v:"A pegadinha do citral"},
+      {t:"figura", v:SVG_CITRAL},
+      {t:"p", v:"O citral tem oxigênio, mas no aldeído da ponta (C=O terminal). O oxigênio não está entre carbonos, então a cadeia é <b>homogênea</b>, apesar de ter o heteroátomo na molécula."}
+    ],
+    erros: [
+      "Marcar álcool, aldeído ou ácido como heterogêneos — nesses o O está na ponta (homogênea).",
+      "Ver oxigênio na fórmula e concluir 'heterogênea' sem checar se ele está ENTRE carbonos."
+    ]
+  },
+
+  "citral": {
+    titulo: "Citral: insaturada, ramificada e homogênea",
+    resumo: "O citral reúne três classificações de uma vez — e a pegadinha é a homogeneidade, porque o oxigênio do aldeído fica fora da cadeia.",
+    blocos: [
+      {t:"h", v:"A estrutura"},
+      {t:"figura", v:SVG_CITRAL},
+      {t:"formula", v:"CH₃–C(CH₃)=CH–CH₂–CH₂–C(CH₃)=CH–CHO"},
+      {t:"h", v:"Os três critérios"},
+      {t:"lista", v:[
+        "<b>Insaturada</b> — tem duas ligações duplas C=C.",
+        "<b>Ramificada</b> — tem duas metilas saindo da cadeia.",
+        "<b>Homogênea</b> — o único heteroátomo (O) está no aldeído terminal, fora da cadeia."
+      ]},
+      {t:"destaque", v:"O aldeído (C=O) está na ponta: o oxigênio liga-se a um só carbono, então não quebra a cadeia carbônica."}
+    ],
+    erros: [
+      "Classificar o citral como heterogêneo por causa do oxigênio — ele é terminal, não está entre carbonos.",
+      "Chamá-lo de aromático: ele é de cadeia aberta, sem anel benzênico."
+    ]
+  },
+
+  "testosterona": {
+    titulo: "Testosterona: contar carbonos e achar a fórmula",
+    resumo: "Núcleo esteroidal de 4 anéis. Os carbonos de junção dão terciários e quaternários; a fórmula sai da contagem de insaturações.",
+    blocos: [
+      {t:"h", v:"A estrutura"},
+      {t:"figura", v:SVG_TESTOSTERONA},
+      {t:"h", v:"Terciários × quaternários"},
+      {t:"p", v:"Nas junções dos anéis, quatro carbonos recebem três ligações C–C (<b>terciários</b>) e dois recebem quatro ligações C–C porque além da junção sustentam as metilas C18 e C19 (<b>quaternários</b>)."},
+      {t:"formula", v:"4 terciários  +  2 quaternários", leg:"a contagem clássica da testosterona"},
+      {t:"h", v:"A fórmula molecular"},
+      {t:"p", v:"São 19 carbonos e 2 oxigênios (o C=O no C3 e o OH no C17). Para os hidrogênios, parta do alcano saturado e desconte as insaturações:"},
+      {t:"formula", v:"H = 2·19 + 2 − 2·(insaturações)\n6 insaturações = 4 anéis + 1 C=C + 1 C=O\nH = 40 − 12 = 28  →  C₁₉H₂₈O₂", leg:"cada anel e cada dupla retira 2 hidrogênios"},
+      {t:"destaque", v:"Cada anel conta como uma insaturação, igual a uma dupla, na hora de contar hidrogênios."}
+    ],
+    erros: [
+      "Contar 17 carbonos e esquecer as duas metilas de junção (C18 e C19) → o total é 19.",
+      "Esquecer um dos oxigênios: há o da carbonila (C3) e o da hidroxila (C17)."
+    ]
+  },
+
+  "nomenclatura": {
+    titulo: "Nomenclatura: prefixo + infixo + sufixo",
+    resumo: "O nome diz tudo: quantos carbonos (prefixo), que tipo de ligação (infixo) e qual função (sufixo), mais a posição das insaturações.",
+    blocos: [
+      {t:"h", v:"As três partes"},
+      {t:"lista", v:[
+        "<b>Prefixo</b> = número de carbonos: met(1), et(2), prop(3), but(4), pent(5), hex(6)...",
+        "<b>Infixo</b> = tipo de ligação: <b>an</b> (só simples), <b>en</b> (dupla), <b>in</b> (tripla).",
+        "<b>Sufixo</b> = função: <b>o</b> para hidrocarboneto."
+      ]},
+      {t:"formula", v:"pent-1-eno = 5 carbonos + dupla começando no C1\nhex-3-ino = 6 carbonos + tripla no C3", leg:"o número indica onde começa a insaturação"},
+      {t:"h", v:"A regra da numeração"},
+      {t:"p", v:"Numere a cadeia pelo lado que dá o <b>menor número</b> à insaturação. Por isso a mesma molécula pode receber o número 1 ou 3 dependendo de qual ponta você começa — escolha a que dá o menor."},
+      {t:"destaque", v:"Mais de uma insaturação usa 'di', 'tri': hexa-1,3-dieno = 6 carbonos com duas duplas (em C1 e C3)."}
+    ],
+    erros: [
+      "Trocar 'en' (dupla) por 'in' (tripla) ao ler o nome.",
+      "Numerar pelo lado errado e dar um número maior à insaturação do que o necessário.",
+      "Confundir o prefixo: 'but' é 4 carbonos, 'pent' é 5."
+    ]
+  },
+
+  "formulas-moleculares": {
+    titulo: "Fórmula molecular pela contagem de insaturações",
+    resumo: "Parta do alcano saturado (CₙH₂ₙ₊₂) e retire 2 hidrogênios para cada insaturação — cada dupla, cada tripla (vale por 2) e cada anel.",
+    blocos: [
+      {t:"h", v:"O método"},
+      {t:"formula", v:"alcano: CₙH₂ₙ₊₂\ncada dupla ou anel: −2 H\ncada tripla: −4 H", leg:"insaturação sempre retira hidrogênios"},
+      {t:"h", v:"Exemplo: hexa-1,3-dieno"},
+      {t:"p", v:"6 carbonos → alcano seria C₆H₁₄. Duas duplas retiram 2×2 = 4 hidrogênios:"},
+      {t:"formula", v:"C₆H₁₄ − 4 H = C₆H₁₀"},
+      {t:"destaque", v:"CₙH₂ₙ pode ser alceno (uma dupla) OU cicloalcano (um anel) — a mesma fórmula serve para os dois."},
+      {t:"h", v:"Confira pela fórmula geral"},
+      {t:"lista", v:[
+        "C₆H₁₄ → saturado (hexano).",
+        "C₆H₁₂ → uma insaturação (hexeno ou cicloexano).",
+        "C₆H₁₀ → duas insaturações (hexadieno ou hexino)."
+      ]}
+    ],
+    erros: [
+      "Esquecer que a tripla retira 4 H (vale por duas insaturações).",
+      "Não contar o anel como insaturação ao calcular os hidrogênios."
+    ]
+  },
+
+  "formulas-gerais": {
+    titulo: "Fórmulas gerais dos hidrocarbonetos",
+    resumo: "Cada família tem uma fórmula geral. Saber as quatro principais resolve as questões de fórmula na hora.",
+    blocos: [
+      {t:"h", v:"As fórmulas"},
+      {t:"lista", v:[
+        "<b>Alcano acíclico</b> (saturado, aberto): CₙH₂ₙ₊₂.",
+        "<b>Alceno acíclico</b> (uma dupla) e <b>cicloalcano</b>: CₙH₂ₙ.",
+        "<b>Alcino</b> e <b>alcadieno</b> acíclicos (duas insaturações): CₙH₂ₙ₋₂."
+      ]},
+      {t:"formula", v:"alcano  CₙH₂ₙ₊₂\nalceno / ciclo  CₙH₂ₙ\nalcino / dieno  CₙH₂ₙ₋₂", leg:"cada insaturação baixa o número de hidrogênios em 2"},
+      {t:"destaque", v:"CₙH₂ₙ₊₁ não é molécula: é um RADICAL (falta um H para fechar a valência)."},
+      {t:"h", v:"Como usar"},
+      {t:"p", v:"Conte os carbonos (n), identifique quantas insaturações a família tem e aplique a fórmula. O alcano é sempre o que tem mais hidrogênios possível."}
+    ],
+    erros: [
+      "Confundir CₙH₂ₙ₊₂ (alcano, molécula) com CₙH₂ₙ₊₁ (radical).",
+      "Usar a fórmula do alcano para um composto que tem dupla ou anel."
+    ]
+  },
+
+  "radicais": {
+    titulo: "Radicais: metil, etil, propil, iso, sec e terc",
+    resumo: "Radical alquila = alcano menos um hidrogênio. O prefixo (n, iso, sec, terc) diz em QUAL carbono está a valência livre.",
+    blocos: [
+      {t:"h", v:"Os radicais lineares"},
+      {t:"lista", v:[
+        "<b>Metil</b> –CH₃ (do metano).",
+        "<b>Etil</b> –C₂H₅ (do etano).",
+        "<b>n-propil</b> –CH₂CH₂CH₃ e <b>n-butil</b> –CH₂CH₂CH₂CH₃ (valência livre na ponta)."
+      ]},
+      {t:"h", v:"Onde fica a valência livre"},
+      {t:"figura", v:SVG_ISOPROPILA},
+      {t:"lista", v:[
+        "<b>iso / sec</b> — valência livre num carbono secundário (isopropil, sec-butil).",
+        "<b>terc</b> — valência livre num carbono terciário (terc-butil)."
+      ]},
+      {t:"figura", v:SVG_RADICAIS_BUTILA},
+      {t:"destaque", v:"O prefixo não muda o número de carbonos; muda só a POSIÇÃO da valência livre."}
+    ],
+    erros: [
+      "Trocar isopropil (valência no carbono do meio) por n-propil (valência na ponta).",
+      "Confundir terc-butil (–C(CH₃)₃) com isopropil (–CH(CH₃)₂): número de carbonos diferente.",
+      "Deduzir metil do etano — metil vem do metano (1 carbono)."
+    ]
+  }
+
+};
+
+// de qual aula cada questao trata (na ordem do array QUESTIONS)
+const LICAO_POR_QUESTAO = [
+  "kekule",                // Q1  postulados de Kekulé e Couper
+  "wohler",                // Q2  fim do vitalismo (ureia)
+  "excecoes",              // Q3  compostos de carbono inorgânicos (CO2)
+  "variedade",             // Q4  tetravalência + cadeias = muitos compostos
+  "classificacao-carbono", // Q5  primário/secundário/terciário/quaternário
+  "contagem-carbonos",     // Q6  2,2,4-trimetilpentano: primários
+  "contagem-carbonos",     // Q7  2,2,4-trimetilpentano: sec/terc/quat
+  "cadeia-ramificada",     // Q8  isobutano: ramificada/saturada/homogênea
+  "cadeia-insaturada",     // Q9  propino: normal/insaturada/homogênea
+  "citral",                // Q10 citral: homogênea (O fora da cadeia)
+  "cadeia-ciclica",        // Q11 ciclopentano
+  "cadeia-aromatica",      // Q12 benzeno
+  "cadeia-heterogenea",    // Q13 éter vs álcool
+  "cadeia-ramificada",     // Q14 quando uma cadeia é ramificada
+  "testosterona",          // Q15 carbonos terciários na testosterona
+  "testosterona",          // Q16 fórmula molecular C19H28O2
+  "nomenclatura",          // Q17 pent-1-eno
+  "nomenclatura",          // Q18 hex-3-ino
+  "nomenclatura",          // Q19 hexa-1,3-dieno
+  "formulas-moleculares",  // Q20 fórmula do hexa-1,3-dieno
+  "formulas-gerais",       // Q21 fórmula geral do alcano
+  "radicais",              // Q22 metila
+  "radicais",              // Q23 isopropila
+  "radicais",              // Q24 terc-butila
+  "radicais",              // Q25 radicais na estrutura
+  "contagem-carbonos"      // Q26 terciários no 3-etil-2,4-dimetilpentano
+];
+QUESTIONS.forEach((q, i) => { q.licao = LICAO_POR_QUESTAO[i] || "kekule"; });
 
 
 
@@ -920,8 +1630,10 @@ function montarQuiz(){
     return {
       tema: q.tema,
       enunciado: q.enunciado,
+      figura: q.figura,                     // diagrama SVG (sobrevive ao sorteio)
       estrutura: q.estrutura,
       conceito: q.conceito,
+      licao: q.licao,                       // aula do assunto (sobrevive ao sorteio)
       alternativas: ordem.map(k => q.alternativas[k])
     };
   });
@@ -1027,6 +1739,7 @@ function renderQuestion(){
     <section class="card">
       <span class="chip">${q.tema}</span>
       <p class="q">${q.enunciado}</p>
+      ${q.figura ? q.figura : ''}
       ${q.estrutura ? `<div class="formula"><span class="lbl">estrutura</span>${q.estrutura}</div>` : ''}
       <div class="opts" id="opts">${opts}</div>
       <div id="confirmBox"></div>
@@ -1189,12 +1902,25 @@ function revelar(chosen){
       ? `<div class="verdict ok">✓ Resposta correta</div>`
       : `<div class="verdict no">✕ Resposta incorreta — a correta é a letra ${LETTERS[q.alternativas.findIndex(a => a.ok)]}</div>`;
 
+  const lic = LICOES[q.licao];
+  const btnAula = lic ? `
+    <button class="lesson-btn" id="abrirAula" type="button">
+      <span class="ico">📘</span>
+      <span class="lbl">Aprender o assunto do zero
+        <small>${lic.titulo}</small></span>
+      <span class="arrow">→</span>
+    </button>` : '';
+
   fb.innerHTML = `
     <div class="fb">
       ${verdict}
       <p class="concept">${q.conceito}</p>
       <ul class="why">${why}</ul>
+      ${btnAula}
     </div>`;
+
+  const abrir = document.getElementById('abrirAula');
+  if (abrir) abrir.addEventListener('click', () => abrirLicao(q.licao));
 
   const nextBtn = document.getElementById('next');
   nextBtn.disabled = false;
@@ -1322,8 +2048,88 @@ document.getElementById('logClear').addEventListener('click', () => {
   document.getElementById('logToggle').textContent = 'Histórico';
 });
 
+/* ---------------- aula do assunto (modal) ---------------- */
+let scrollAntes = 0;
+
+function renderLicao(id){
+  const l = LICOES[id];
+  if (!l) return '';
+
+  const corpo = l.blocos.map(b => {
+    if (b.t === 'h')   return `<h3>${b.v}</h3>`;
+    if (b.t === 'p')   return `<p>${b.v}</p>`;
+    if (b.t === 'formula') return `<div class="lesson-form">${b.v}${b.leg ? `<span class="leg">${b.leg}</span>` : ''}</div>`;
+    if (b.t === 'figura') return b.v;
+    if (b.t === 'destaque') return `<div class="lesson-hi">${b.v}</div>`;
+    if (b.t === 'lista') return `<ul>${b.v.map(x => `<li>${x}</li>`).join('')}</ul>`;
+    return '';
+  }).join('');
+
+  const erros = (l.erros && l.erros.length) ? `
+    <div class="lesson-erros">
+      <p class="tit">Onde todo mundo erra</p>
+      <ul>${l.erros.map(x => `<li>${x}</li>`).join('')}</ul>
+    </div>` : '';
+
+  return `
+    <div class="lesson-head">
+      <div style="flex:1;min-width:0">
+        <p class="eyebrow">Aula · Química Orgânica</p>
+        <h2>${l.titulo}</h2>
+      </div>
+      <button class="lesson-close" id="fecharAula" type="button" aria-label="Fechar">✕</button>
+    </div>
+    <div class="lesson-body">
+      <p class="lesson-resumo">${l.resumo}</p>
+      ${corpo}
+      ${erros}
+    </div>
+    <div class="lesson-foot">
+      <button class="btn ghost" id="fecharAula2" type="button">Voltar para a questão</button>
+      <button class="btn" id="entendi" type="button">Entendi, continuar</button>
+    </div>`;
+}
+
+function abrirLicao(id){
+  const modal = document.getElementById('modal');
+  const box   = document.getElementById('lesson');
+  if (!modal || !LICOES[id]) return;
+  scrollAntes = window.scrollY;
+  box.innerHTML = renderLicao(id);
+  modal.classList.add('open');
+  modal.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+  document.getElementById('fecharAula').addEventListener('click', fecharLicao);
+  document.getElementById('fecharAula2').addEventListener('click', fecharLicao);
+  document.getElementById('entendi').addEventListener('click', fecharLicao);
+}
+
+function fecharLicao(){
+  const modal = document.getElementById('modal');
+  if (!modal) return;
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('lesson').innerHTML = '';
+  window.scrollTo({top: scrollAntes, behavior: 'auto'});
+  const n = document.getElementById('next');
+  if (n) n.focus({preventScroll:true});
+}
+
+document.addEventListener('click', e => {
+  if (e.target && e.target.id === 'modal') fecharLicao();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape'){
+    const m = document.getElementById('modal');
+    if (m && m.classList.contains('open')){ e.preventDefault(); e.stopPropagation(); fecharLicao(); }
+  }
+}, true);
+
 /* ---------------- teclado ---------------- */
 document.addEventListener('keydown', e => {
+  const modalAberto = document.getElementById('modal') && document.getElementById('modal').classList.contains('open');
+  if (modalAberto) return;              // aula aberta: teclado do quiz fica inativo
   if (estado === 'intro'){
     if (e.key === 'Enter'){ e.preventDefault(); comecar(true); }
     return;
